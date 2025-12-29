@@ -1,43 +1,4 @@
-[00:00:03.160] Server  LOG      ✓ Ready in 2.5s
-[00:00:03.173] Server  WARN     ⚠ Cross origin request detected from 100.114.209.41 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
-Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
-[00:00:06.354] Server  LOG      ○ Compiling /dashboard/tracking ...
-[00:00:09.533] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:09.751] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:58.053] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:04.736] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:04.919] Browser WARN    Image with src "http://100.114.209.41:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:36:44.702] Server  LOG      ✓ Compiled in 541ms
-[00:37:42.024] Browser WARN    Image with src "http://100.114.209.41:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:37:45.699] Server  LOG      ✓ Compiled in 766ms
-[00:40:28.098] Server  LOG      ✓ Compiled in 315ms
-[00:41:18.270] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:41:26.261] Browser ERROR   Login error: {}
-[00:41:26.261] Browser ERROR   unhandledRejection: Error: Login failed
-[00:41:32.087] Browser ERROR   Login error: {}
-[00:41:32.087] Browser ERROR   unhandledRejection: Error: Login failed
-[00:41:39.972] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:42:36.194] Browser ERROR   Geolocation watch error: 1 Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).
-[00:42:36.194] Browser ERROR   Failed to get initial position: 1 Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).
-[00:43:06.058] Browser ERROR   Failed to get position for update: {}
-[00:43:36.050] Browser ERROR   Failed to get position for update: {}
-[00:43:40.391] Server  LOG      ✓ Compiled in 3.8s
-[00:43:45.746] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:43:52.803] Browser ERROR   Geolocation watch error: 1 Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).
-[00:43:52.803] Browser ERROR   Failed to get initial position: 1 Only secure origins are allowed (see: https://goo.gl/Y0ZkNV).
-[00:44:23.972] Browser ERROR   Failed to get position for update: {}
-[00:44:53.973] Browser ERROR   Failed to get position for update: {}
-[00:45:23.964] Browser ERROR   Failed to get position for update: {}
-[00:45:53.973] Browser ERROR   Failed to get position for update: {}
-[00:46:23.965] Browser ERROR   Failed to get position for update: {}
-[00:46:53.962] Browser ERROR   Failed to get position for update: {}
-[00:47:23.964] Browser ERROR   Failed to get position for update: {}
-[00:48:08.962] Browser ERROR   Failed to get position for update: {}
-[00:49:08.962] Browser ERROR   Failed to get position for update: {}
-[00:50:08.976] Browser ERROR   Failed to get position for update: {}
-[00:51:08.963] Browser ERROR   Failed to get position for update: {}
-[00:52:08.974] Browser ERROR   Failed to get position for update: {}
-[00:52:56.038] Browser ERROR   Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-render Router UsersPage UsersPage
-[00:53:04.499] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:05.941] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:08.972] Browser ERROR   Failed to get position for update: {}
+[00:00:13.658] Server  LOG      ○ Compiling middleware ...
+[00:00:16.908] Server  LOG      ✓ Ready in 14s
+[00:00:19.964] Server  LOG      ○ Compiling / ...
+[00:00:35.770] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

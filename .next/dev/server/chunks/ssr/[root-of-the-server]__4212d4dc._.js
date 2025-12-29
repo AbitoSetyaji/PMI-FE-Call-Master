@@ -51,6 +51,16 @@ const AuthContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project
 // Storage keys
 const TOKEN_KEY = "pmi_auth_token";
 const USER_KEY = "pmi_user";
+const COOKIE_TOKEN_KEY = "pmi_access_token";
+// Helper to set cookie
+function setCookie(name, value, days = 7) {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+}
+// Helper to remove cookie
+function removeCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
 function AuthProvider({ children }) {
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
@@ -79,7 +89,7 @@ function AuthProvider({ children }) {
     const login = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (email, password)=>{
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/auth/login`, {
+            const response = await fetch(`${("TURBOPACK compile-time value", "http://148.230.100.61:8000") || "http://localhost:8000/api"}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -91,13 +101,14 @@ function AuthProvider({ children }) {
             });
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.message || "Login failed");
+                throw new Error(error.detail || error.message || "Login failed");
             }
             const response_data = await response.json();
             const { data } = response_data;
-            // Store token and user data
+            // Store token and user data in localStorage and cookie
             localStorage.setItem(TOKEN_KEY, data.access_token);
             localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+            setCookie(COOKIE_TOKEN_KEY, data.access_token); // For middleware
             setUser(data.user);
             // Role-based redirect after login
             if (data.user.role === "driver") {
@@ -118,7 +129,7 @@ function AuthProvider({ children }) {
     const register = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (registerData)=>{
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/auth/register`, {
+            const response = await fetch(`${("TURBOPACK compile-time value", "http://148.230.100.61:8000") || "http://localhost:8000/api"}/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -127,13 +138,14 @@ function AuthProvider({ children }) {
             });
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.message || "Registration failed");
+                throw new Error(error.detail || error.message || "Registration failed");
             }
             const response_data = await response.json();
             const { data } = response_data;
-            // Store token and user data
+            // Store token and user data in localStorage and cookie
             localStorage.setItem(TOKEN_KEY, data.access_token);
             localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+            setCookie(COOKIE_TOKEN_KEY, data.access_token); // For middleware
             setUser(data.user);
             // Redirect to dashboard
             router.push("/dashboard");
@@ -150,6 +162,7 @@ function AuthProvider({ children }) {
     const logout = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(()=>{
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
+        removeCookie(COOKIE_TOKEN_KEY); // Remove auth cookie
         setUser(null);
         router.push("/");
     }, [
@@ -168,7 +181,7 @@ function AuthProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/contexts/AuthContext.tsx",
-        lineNumber: 183,
+        lineNumber: 198,
         columnNumber: 10
     }, this);
 }
