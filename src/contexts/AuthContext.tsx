@@ -46,6 +46,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Storage keys
 const TOKEN_KEY = "pmi_auth_token";
 const USER_KEY = "pmi_user";
+const COOKIE_TOKEN_KEY = "pmi_access_token";
+
+// Helper to set cookie
+function setCookie(name: string, value: string, days: number = 7) {
+  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+}
+
+// Helper to remove cookie
+function removeCookie(name: string) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
 
 // Auth Provider component
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -100,9 +112,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const response_data: { status: string; message: string; data: { access_token: string; user: User } } = await response.json();
         const { data } = response_data;
 
-        // Store token and user data
+        // Store token and user data in localStorage and cookie
         localStorage.setItem(TOKEN_KEY, data.access_token);
         localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+        setCookie(COOKIE_TOKEN_KEY, data.access_token); // For middleware
         setUser(data.user);
 
         // Role-based redirect after login
@@ -146,9 +159,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const response_data: { status: string; message: string; data: { access_token: string; user: User } } = await response.json();
         const { data } = response_data;
 
-        // Store token and user data
+        // Store token and user data in localStorage and cookie
         localStorage.setItem(TOKEN_KEY, data.access_token);
         localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+        setCookie(COOKIE_TOKEN_KEY, data.access_token); // For middleware
         setUser(data.user);
 
         // Redirect to dashboard
@@ -167,6 +181,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    removeCookie(COOKIE_TOKEN_KEY); // Remove auth cookie
     setUser(null);
     router.push("/");
   }, [router]);
