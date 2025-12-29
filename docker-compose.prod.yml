@@ -1,0 +1,38 @@
+services:
+  # ============================================
+  # FRONTEND - Next.js
+  # ============================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=https://148.230.100.61:501/api
+    container_name: pmi-fe-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - pmi-shared-network
+
+  # ============================================
+  # NGINX - Reverse Proxy with SSL
+  # ============================================
+  nginx:
+    image: nginx:alpine
+    container_name: pmi-fe-nginx
+    restart: unless-stopped
+    ports:
+      - "501:80"
+      - "1932:443"
+    volumes:
+      - ./nginx/nginx-standalone.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - pmi-shared-network
+    depends_on:
+      - frontend
+
+networks:
+  pmi-shared-network:
+    external: true

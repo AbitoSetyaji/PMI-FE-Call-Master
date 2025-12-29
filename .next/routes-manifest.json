@@ -1,0 +1,289 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/admin/assignments/[id]",
+      "regex": "^/admin/assignments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/assignments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/admin/reports/[id]",
+      "regex": "^/admin/reports/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/reports/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/admin/reports/[id]/edit",
+      "regex": "^/admin/reports/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/reports/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/admin/vehicles/[id]",
+      "regex": "^/admin/vehicles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/vehicles/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/dashboard/assignments/[id]",
+      "regex": "^/dashboard/assignments/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/assignments/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/dashboard/reports/[id]",
+      "regex": "^/dashboard/reports/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/reports/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/dashboard/reports/[id]/edit",
+      "regex": "^/dashboard/reports/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/reports/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/dashboard/vehicles/[id]",
+      "regex": "^/dashboard/vehicles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/vehicles/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/admin",
+      "regex": "^/admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin(?:/)?$"
+    },
+    {
+      "page": "/admin/assignments",
+      "regex": "^/admin/assignments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/assignments(?:/)?$"
+    },
+    {
+      "page": "/admin/assignments/create",
+      "regex": "^/admin/assignments/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/assignments/create(?:/)?$"
+    },
+    {
+      "page": "/admin/reports",
+      "regex": "^/admin/reports(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/reports(?:/)?$"
+    },
+    {
+      "page": "/admin/reports/create",
+      "regex": "^/admin/reports/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/reports/create(?:/)?$"
+    },
+    {
+      "page": "/admin/tracking",
+      "regex": "^/admin/tracking(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/tracking(?:/)?$"
+    },
+    {
+      "page": "/admin/users",
+      "regex": "^/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/users(?:/)?$"
+    },
+    {
+      "page": "/admin/vehicles",
+      "regex": "^/admin/vehicles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/vehicles(?:/)?$"
+    },
+    {
+      "page": "/admin/vehicles/create",
+      "regex": "^/admin/vehicles/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/vehicles/create(?:/)?$"
+    },
+    {
+      "page": "/admin/vehicles/types",
+      "regex": "^/admin/vehicles/types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/vehicles/types(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/dashboard/assignments",
+      "regex": "^/dashboard/assignments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/assignments(?:/)?$"
+    },
+    {
+      "page": "/dashboard/assignments/create",
+      "regex": "^/dashboard/assignments/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/assignments/create(?:/)?$"
+    },
+    {
+      "page": "/dashboard/reports",
+      "regex": "^/dashboard/reports(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/reports(?:/)?$"
+    },
+    {
+      "page": "/dashboard/reports/create",
+      "regex": "^/dashboard/reports/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/reports/create(?:/)?$"
+    },
+    {
+      "page": "/dashboard/tracking",
+      "regex": "^/dashboard/tracking(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/tracking(?:/)?$"
+    },
+    {
+      "page": "/dashboard/users",
+      "regex": "^/dashboard/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/users(?:/)?$"
+    },
+    {
+      "page": "/dashboard/vehicles",
+      "regex": "^/dashboard/vehicles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/vehicles(?:/)?$"
+    },
+    {
+      "page": "/dashboard/vehicles/create",
+      "regex": "^/dashboard/vehicles/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/vehicles/create(?:/)?$"
+    },
+    {
+      "page": "/dashboard/vehicles/types",
+      "regex": "^/dashboard/vehicles/types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/vehicles/types(?:/)?$"
+    },
+    {
+      "page": "/driver",
+      "regex": "^/driver(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/driver(?:/)?$"
+    },
+    {
+      "page": "/driver/assignments",
+      "regex": "^/driver/assignments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/driver/assignments(?:/)?$"
+    },
+    {
+      "page": "/driver/location",
+      "regex": "^/driver/location(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/driver/location(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/register",
+      "regex": "^/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/register(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
