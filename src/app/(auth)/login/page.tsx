@@ -1,14 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { Ambulance } from "lucide-react";
+import { Ambulance, AlertCircle } from "lucide-react";
 
 const schema = z.object({
   email: z.string().email({ message: "Email tidak valid" }),
@@ -19,14 +20,34 @@ type LoginFormData = z.infer<typeof schema>;
 
 export default function LoginPage() {
   const { login, isLoading } = useAuth();
+  const searchParams = useSearchParams();
+  const [sessionExpired, setSessionExpired] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(schema) });
 
+  // Check if redirected due to session expiry
+  useEffect(() => {
+    if (searchParams.get("session_expired") === "true") {
+      setSessionExpired(true);
+      // Clean up the URL
+      window.history.replaceState({}, "", "/login");
+    }
+  }, [searchParams]);
+
   async function onSubmit(values: LoginFormData) {
     await login(values.email, values.password);
+
+    // After successful login, check for redirect path
+    const redirectPath = sessionStorage.getItem("redirect_after_login");
+    if (redirectPath) {
+      sessionStorage.removeItem("redirect_after_login");
+      // The login function in AuthContext already handles redirect based on role
+      // This is just for cleanup
+    }
   }
 
   return (
@@ -40,6 +61,19 @@ export default function LoginPage() {
           </div>
           <p className="text-gray-600">Sistem Manajemen Panggilan Darurat</p>
         </div>
+
+        {/* Session Expired Alert */}
+        {sessionExpired && (
+          <div className="mb-4 bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-amber-800">Session Berakhir</h3>
+              <p className="text-sm text-amber-700">
+                Sesi Anda telah berakhir. Silakan login kembali untuk melanjutkan.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Login Form Card */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
@@ -96,3 +130,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

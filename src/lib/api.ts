@@ -20,12 +20,96 @@ import type {
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
+// Storage keys (must match AuthContext)
+const TOKEN_KEY = "pmi_auth_token";
+const USER_KEY = "pmi_user";
+const COOKIE_TOKEN_KEY = "pmi_access_token";
+
+// Helper to set cookie
+function setCookie(name: string, value: string, days: number = 7) {
+  if (typeof document !== "undefined") {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+  }
+}
+
+// Helper to remove cookie
+function removeCookie(name: string) {
+  if (typeof document !== "undefined") {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+}
+
+// Helper to handle 401 errors - clear auth and redirect to login
+function handleUnauthorized() {
+  if (typeof window !== "undefined") {
+    // Clear all auth data
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    removeCookie(COOKIE_TOKEN_KEY);
+
+    // Store current path for redirect after login (optional)
+    const currentPath = window.location.pathname;
+    if (currentPath !== "/" && currentPath !== "/login") {
+      sessionStorage.setItem("redirect_after_login", currentPath);
+    }
+
+    // Redirect to login page
+    window.location.href = "/?session_expired=true";
+  }
+}
+
+// Refresh token function - call this to extend session
+export async function refreshAuthToken(): Promise<boolean> {
+  try {
+    const token = typeof window !== "undefined" ? localStorage.getItem(TOKEN_KEY) : null;
+
+    if (!token) {
+      return false;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.warn("Token refresh failed:", response.status);
+      return false;
+    }
+
+    const result = await response.json();
+
+    if (result.data?.access_token) {
+      // Update stored token
+      localStorage.setItem(TOKEN_KEY, result.data.access_token);
+      setCookie(COOKIE_TOKEN_KEY, result.data.access_token);
+
+      // Update user data if provided
+      if (result.data.user) {
+        localStorage.setItem(USER_KEY, JSON.stringify(result.data.user));
+      }
+
+      console.log("✅ Token refreshed successfully");
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Token refresh error:", error);
+    return false;
+  }
+}
+
 // Helper function for API calls
 async function apiCall<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = typeof window !== "undefined" ? localStorage.getItem("pmi_auth_token") : null;
+  const token = typeof window !== "undefined" ? localStorage.getItem(TOKEN_KEY) : null;
 
   const headers = new Headers(options.headers);
   headers.set("Content-Type", "application/json");
@@ -39,9 +123,15 @@ async function apiCall<T>(
     headers,
   });
 
+  // Handle 401 Unauthorized - token expired or invalid
+  if (response.status === 401) {
+    handleUnauthorized();
+    throw new Error("Session expired. Please login again.");
+  }
+
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || `API Error: ${response.status}`);
+    throw new Error(error.message || error.detail || `API Error: ${response.status}`);
   }
 
   return response.json();

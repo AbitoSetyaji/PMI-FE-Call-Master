@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { assignmentsApi, reportsApi, vehiclesApi, createDriverLocation } from "@/lib/api";
+import { assignmentsApi, reportsApi, vehiclesApi, createDriverLocation, refreshAuthToken } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import {
@@ -39,6 +39,10 @@ export default function DriverDashboardPage() {
   const [locationError, setLocationError] = useState<string | null>(null);
   const locationIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const watchIdRef = useRef<number | null>(null);
+
+  // Token refresh interval ref
+  const tokenRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const [confirmDialog, setConfirmDialog] = useState<{
     isOpen: boolean;
     status: "on_way" | "arrived_pickup" | "arrived_destination" | "done" | null;
@@ -297,8 +301,52 @@ export default function DriverDashboardPage() {
       if (locationIntervalRef.current) {
         clearInterval(locationIntervalRef.current);
       }
+      if (tokenRefreshIntervalRef.current) {
+        clearInterval(tokenRefreshIntervalRef.current);
+      }
     };
   }, []);
+
+  // Auto token refresh when driver has active assignment
+  // Refresh token every 20 minutes to prevent session expiry during duty
+  useEffect(() => {
+    const hasActiveAssignment = activeAssignment &&
+      (!report || (report.status !== "done" && report.status !== "canceled"));
+
+    if (hasActiveAssignment) {
+      // Refresh immediately on start
+      refreshAuthToken().then(success => {
+        if (success) {
+          console.log("🔐 Initial token refresh successful");
+        }
+      });
+
+      // Set up interval to refresh every 20 minutes (1,200,000 ms)
+      const REFRESH_INTERVAL = 20 * 60 * 1000; // 20 minutes
+      tokenRefreshIntervalRef.current = setInterval(async () => {
+        const success = await refreshAuthToken();
+        if (success) {
+          console.log("🔐 Token auto-refreshed for active assignment");
+        } else {
+          console.warn("⚠️ Token refresh failed - session may expire");
+          toast.warning("Session akan segera berakhir. Simpan pekerjaan Anda.");
+        }
+      }, REFRESH_INTERVAL);
+
+      return () => {
+        if (tokenRefreshIntervalRef.current) {
+          clearInterval(tokenRefreshIntervalRef.current);
+          tokenRefreshIntervalRef.current = null;
+        }
+      };
+    } else {
+      // Clear interval when no active assignment
+      if (tokenRefreshIntervalRef.current) {
+        clearInterval(tokenRefreshIntervalRef.current);
+        tokenRefreshIntervalRef.current = null;
+      }
+    }
+  }, [activeAssignment, report?.status]);
 
   // Handle redirect in useEffect to prevent setState during render
   useEffect(() => {
