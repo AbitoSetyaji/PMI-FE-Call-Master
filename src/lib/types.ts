@@ -249,6 +249,8 @@ export interface DriverLocation {
   created_at?: string;
   updated_at?: string;
   report?: DriverLocationReport;
+  has_location?: boolean;  // Flag to indicate if driver has real location data
+  status?: string;  // Additional status like "no_location"
 }
 
 export interface CreateDriverLocationRequest {

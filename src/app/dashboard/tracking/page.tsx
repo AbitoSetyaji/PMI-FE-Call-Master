@@ -65,20 +65,22 @@ export default function TrackingPage() {
   });
 
   const locations: DriverLocation[] = locationsData?.data || [];
-  const activeDrivers = locations.filter((loc) => loc.assignment_id);
-  const idleDrivers = locations.filter((loc) => !loc.assignment_id);
+  const driversWithLocation = locations.filter((loc) => loc.has_location !== false);
+  const driversNoLocation = locations.filter((loc) => loc.has_location === false);
+  const activeDrivers = driversWithLocation.filter((loc) => loc.assignment_id);
+  const idleDrivers = driversWithLocation.filter((loc) => !loc.assignment_id);
 
   // Default center (Jakarta, Indonesia - PMI headquarters example)
   const defaultCenter: [number, number] = [-6.2088, 106.8456];
 
-  // Calculate map center based on driver locations
+  // Calculate map center based on driver locations (only those with real locations)
   const mapCenter: [number, number] =
-    locations.length > 0
+    driversWithLocation.length > 0
       ? [
-        locations.reduce((sum, loc) => sum + loc.latitude, 0) /
-        locations.length,
-        locations.reduce((sum, loc) => sum + loc.longitude, 0) /
-        locations.length,
+        driversWithLocation.reduce((sum, loc) => sum + loc.latitude, 0) /
+        driversWithLocation.length,
+        driversWithLocation.reduce((sum, loc) => sum + loc.longitude, 0) /
+        driversWithLocation.length,
       ]
       : defaultCenter;
 
@@ -186,13 +188,16 @@ export default function TrackingPage() {
               <p className="text-gray-600">Loading map...</p>
             </div>
           </div>
-        ) : locations.length === 0 ? (
+        ) : driversWithLocation.length === 0 ? (
           <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] flex items-center justify-center bg-gray-50">
             <div className="text-center">
               <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
               <p className="text-gray-600">No driver locations available</p>
               <p className="text-sm text-gray-500 mt-1">
-                Drivers will appear here once they start sharing their location
+                {locations.length > 0
+                  ? `${locations.length} driver(s) registered but haven't shared their location yet`
+                  : "Drivers will appear here once they start sharing their location"
+                }
               </p>
             </div>
           </div>
@@ -200,7 +205,7 @@ export default function TrackingPage() {
           <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px]">
             <MapView center={mapCenter} zoom={12}>
               <FlyToLocation position={flyToPosition} zoom={16} />
-              {locations.map((location, index) => (
+              {driversWithLocation.map((location, index) => (
                 <DriverMarker key={location.id} location={location} color={getDriverColor(index)} />
               ))}
             </MapView>
@@ -253,11 +258,17 @@ export default function TrackingPage() {
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <span className={`inline-flex items-center px-1.5 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${location.assignment_id
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-600"
+                    <span className={`inline-flex items-center px-1.5 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${location.has_location === false
+                      ? "bg-yellow-100 text-yellow-800"
+                      : location.assignment_id
+                        ? "bg-green-100 text-green-800"
+                        : "bg-gray-100 text-gray-600"
                       }`}>
-                      {location.assignment_id ? "🔴 On Duty" : "⚪ Idle"}
+                      {location.has_location === false
+                        ? "📍 No Location"
+                        : location.assignment_id
+                          ? "🔴 On Duty"
+                          : "⚪ Idle"}
                     </span>
                     <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">
                       {mounted && location.timestamp
