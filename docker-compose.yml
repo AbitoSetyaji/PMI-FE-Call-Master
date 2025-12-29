@@ -9,6 +9,7 @@ services:
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8080}
     ports:
       - "3000:3000"
+      - "1932:1932"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
