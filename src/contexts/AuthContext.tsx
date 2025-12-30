@@ -43,6 +43,9 @@ interface RegisterData {
 // Create context with default values
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// API Base URL
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+
 // Storage keys
 const TOKEN_KEY = "pmi_auth_token";
 const USER_KEY = "pmi_user";
@@ -94,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/auth/login`,
+          `${API_BASE_URL}/auth/login`,
           {
             method: "POST",
             headers: {
@@ -140,7 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/auth/register`,
+          `${API_BASE_URL}/auth/register`,
           {
             method: "POST",
             headers: {

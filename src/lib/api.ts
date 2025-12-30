@@ -17,12 +17,8 @@ import type {
   PaginatedResponse,
 } from "./types";
 
-// Use relative path for browser (works with both IP and domain access)
-// For server-side rendering, use the environment variable
-const API_BASE_URL =
-  typeof window !== "undefined"
-    ? "/api" // Browser: use relative path (auto-adapts to current origin)
-    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+// API Base URL - use environment variable for production, fallback to localhost for development
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
 
 // Storage keys (must match AuthContext)
