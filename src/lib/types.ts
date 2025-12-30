@@ -202,6 +202,7 @@ export interface Assignment {
   status: AssignmentStatus;
   assigned_at: string;  // When the assignment was created
   completed_at?: string;  // When the assignment was completed
+  coffin_checklist_confirmed?: boolean;  // Coffin/Keranda checklist confirmed by driver
   created_at?: string;
   updated_at?: string;
 }
@@ -219,6 +220,8 @@ export interface CreateAssignmentRequest {
 
 export interface UpdateAssignmentRequest {
   status?: AssignmentStatus;
+  vehicle_id?: string;
+  coffin_checklist_confirmed?: boolean;
 }
 
 // Driver Location with full assignment details for tracking

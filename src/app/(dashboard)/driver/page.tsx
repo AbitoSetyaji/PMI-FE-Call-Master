@@ -139,25 +139,36 @@ export default function DriverDashboardPage() {
   const report = reportData;
   const vehicle = vehicleData?.data;
 
-  // Load coffin checklist state from localStorage when assignment changes
+  // Load coffin checklist state from assignment data (from database)
   useEffect(() => {
-    if (activeAssignment?.id) {
-      const storageKey = `coffin_checklist_${activeAssignment.id}`;
-      const savedState = localStorage.getItem(storageKey);
-      if (savedState === 'true') {
-        setCoffinChecklistConfirmed(true);
-      } else {
-        setCoffinChecklistConfirmed(false);
-      }
+    if (activeAssignment?.coffin_checklist_confirmed) {
+      setCoffinChecklistConfirmed(true);
+    } else {
+      setCoffinChecklistConfirmed(false);
     }
-  }, [activeAssignment?.id]);
+  }, [activeAssignment?.coffin_checklist_confirmed]);
 
-  // Save coffin checklist state to localStorage when it changes
+  // Mutation to update coffin checklist confirmation
+  const updateCoffinChecklistMutation = useMutation({
+    mutationFn: (confirmed: boolean) =>
+      assignmentsApi.update(activeAssignment!.id, {
+        coffin_checklist_confirmed: confirmed,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["driver-assignments"] });
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Gagal menyimpan konfirmasi checklist");
+      // Revert the state on error
+      setCoffinChecklistConfirmed(!coffinChecklistConfirmed);
+    },
+  });
+
+  // Save coffin checklist state to database when it changes
   const handleCoffinChecklistChange = (checked: boolean) => {
     setCoffinChecklistConfirmed(checked);
     if (activeAssignment?.id) {
-      const storageKey = `coffin_checklist_${activeAssignment.id}`;
-      localStorage.setItem(storageKey, String(checked));
+      updateCoffinChecklistMutation.mutate(checked);
     }
   };
 

@@ -398,7 +398,7 @@ export const assignmentsApi = {
 
   updateDriverAssignment: async (
     assignmentId: string,
-    data: { vehicle_id?: string; status?: string }
+    data: { vehicle_id?: string; status?: string; coffin_checklist_confirmed?: boolean }
   ): Promise<ApiResponse<Assignment>> => {
     return await apiCall<ApiResponse<Assignment>>(`/assignments/${assignmentId}`, {
       method: "PUT",
