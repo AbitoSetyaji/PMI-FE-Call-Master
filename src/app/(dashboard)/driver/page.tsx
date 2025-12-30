@@ -75,12 +75,12 @@ export default function DriverDashboardPage() {
       }),
     onSuccess: (data, status) => {
       const statusMessages: Record<string, string> = {
-        on_way: "Departure confirmed - On the way",
-        arrived_pickup: "Arrived at pickup location",
-        arrived_destination: "Arrived at destination",
-        done: "Assignment completed",
+        on_way: "Keberangkatan dikonfirmasi - Dalam perjalanan",
+        arrived_pickup: "Tiba di lokasi penjemputan",
+        arrived_destination: "Tiba di tujuan",
+        done: "Penugasan selesai",
       };
-      toast.success(statusMessages[status] || "Status updated");
+      toast.success(statusMessages[status] || "Status diperbarui");
       // Invalidate all queries to ensure sync across all devices/tabs
       queryClient.invalidateQueries({ queryKey: ["driver-assignments"] });
       queryClient.invalidateQueries({ queryKey: ["assignments"] });
@@ -90,7 +90,7 @@ export default function DriverDashboardPage() {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update status");
+      toast.error(error.message || "Gagal memperbarui status");
     },
   });
 
@@ -465,9 +465,9 @@ export default function DriverDashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Driver Dashboard
+                Dasbor Driver
               </h1>
-              <p className="text-gray-600 mt-1">Welcome back, {user?.name}!</p>
+              <p className="text-gray-600 mt-1">Selamat datang kembali, {user?.name}!</p>
             </div>
             <Truck className="w-12 h-12 text-red-600" />
           </div>
@@ -479,7 +479,7 @@ export default function DriverDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Completed Today
+                  Selesai Hari Ini
                 </p>
                 <p className="text-3xl font-bold text-green-600 mt-1">
                   {completedToday}
@@ -493,7 +493,7 @@ export default function DriverDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Total Completed
+                  Total Selesai
                 </p>
                 <p className="text-3xl font-bold text-blue-600 mt-1">
                   {completedTotal}
@@ -507,7 +507,7 @@ export default function DriverDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Active Assignment
+                  Penugasan Aktif
                 </p>
                 <p className="text-3xl font-bold text-red-600 mt-1">
                   {activeAssignment &&
@@ -631,8 +631,8 @@ export default function DriverDashboardPage() {
                             </div>
                             <span className="text-lg font-bold">
                               {updateReportStatusMutation.isPending
-                                ? "Updating..."
-                                : "🚀 Confirm Departure"}
+                                ? "Memperbarui..."
+                                : "🚀 Konfirmasi Keberangkatan"}
                             </span>
                           </div>
                           <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -657,8 +657,8 @@ export default function DriverDashboardPage() {
                         </div>
                         <span className="text-lg font-bold">
                           {updateReportStatusMutation.isPending
-                            ? "Updating..."
-                            : "📍 Arrived at Pickup"}
+                            ? "Memperbarui..."
+                            : "📍 Tiba di Lokasi Jemput"}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -679,8 +679,8 @@ export default function DriverDashboardPage() {
                         </div>
                         <span className="text-lg font-bold">
                           {updateReportStatusMutation.isPending
-                            ? "Updating..."
-                            : "🏥 Arrived at Destination"}
+                            ? "Memperbarui..."
+                            : "🏥 Tiba di Tujuan"}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -699,8 +699,8 @@ export default function DriverDashboardPage() {
                         </div>
                         <span className="text-lg font-bold">
                           {updateReportStatusMutation.isPending
-                            ? "Updating..."
-                            : "✅ Mark as Done"}
+                            ? "Memperbarui..."
+                            : "✅ Tandai Selesai"}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -713,37 +713,37 @@ export default function DriverDashboardPage() {
               <div className="border border-gray-200 rounded-lg p-4">
                 <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                   <AlertCircle className="w-5 h-5 text-red-600" />
-                  Emergency Report
+                  Laporan Darurat
                 </h3>
                 {report ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-600">Requester Name</p>
+                      <p className="text-sm text-gray-600">Nama Pemohon</p>
                       <p className="font-medium text-gray-900">
                         {report.requester_name}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Requester Phone</p>
+                      <p className="text-sm text-gray-600">Telepon Pemohon</p>
                       <p className="font-medium text-gray-900 flex items-center gap-2">
                         <Phone className="w-4 h-4" />
                         {report.requester_phone}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Patient Name</p>
+                      <p className="text-sm text-gray-600">Nama Pasien</p>
                       <p className="font-medium text-gray-900">
-                        {report.patient_name} - {report.patient_age} years old
+                        {report.patient_name} - {report.patient_age} tahun
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Patient Gender</p>
+                      <p className="text-sm text-gray-600">Jenis Kelamin</p>
                       <p className="font-medium text-gray-900 capitalize">
-                        {report.patient_gender}
+                        {report.patient_gender === 'male' ? 'Laki-laki' : report.patient_gender === 'female' ? 'Perempuan' : report.patient_gender}
                       </p>
                     </div>
                     <div className="md:col-span-2">
-                      <p className="text-sm text-gray-600">Pickup Location</p>
+                      <p className="text-sm text-gray-600">Lokasi Jemput</p>
                       <p className="font-medium text-gray-900 flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
                         {report.pickup_address}
@@ -757,25 +757,25 @@ export default function DriverDashboardPage() {
                           rel="noopener noreferrer"
                           className="text-sm text-blue-600 hover:underline mt-1 inline-block"
                         >
-                          Open in Google Maps →
+                          Buka di Google Maps →
                         </a>
                       )}
                     </div>
                     <div className="md:col-span-2">
-                      <p className="text-sm text-gray-600">Destination</p>
+                      <p className="text-sm text-gray-600">Tujuan</p>
                       <p className="font-medium text-gray-900">
                         {report.destination_address}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Report Status</p>
+                      <p className="text-sm text-gray-600">Status Laporan</p>
                       <Badge variant={report.status || "pending"}>
                         {report.status}
                       </Badge>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-gray-500">Loading report details...</p>
+                  <p className="text-gray-500">Memuat detail laporan...</p>
                 )}
               </div>
 
@@ -890,19 +890,19 @@ export default function DriverDashboardPage() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-sm text-gray-600">Vehicle Name</p>
+                        <p className="text-sm text-gray-600">Nama Kendaraan</p>
                         <p className="font-medium text-gray-900">
                           {vehicle.name}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Plate Number</p>
+                        <p className="text-sm text-gray-600">Nomor Plat</p>
                         <p className="font-medium text-gray-900">
                           {vehicle.plate_number}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Type</p>
+                        <p className="text-sm text-gray-600">Jenis</p>
                         <p className="font-medium text-gray-900">
                           {(vehicle as unknown as { vehicle_type_name?: string }).vehicle_type_name
                             ? ((vehicle as unknown as { vehicle_type_name: string }).vehicle_type_name)
@@ -926,14 +926,14 @@ export default function DriverDashboardPage() {
                         <Truck className="w-4 h-4" />
                         <span className="text-sm font-medium">
                           {assignVehicleMutation.isPending
-                            ? "Changing..."
-                            : "Change Vehicle"}
+                            ? "Mengganti..."
+                            : "Ganti Kendaraan"}
                         </span>
                       </button>
                     )}
                   </div>
                 ) : activeAssignment.vehicle_id ? (
-                  <p className="text-gray-500">Loading vehicle details...</p>
+                  <p className="text-gray-500">Memuat detail kendaraan...</p>
                 ) : (
                   <button
                     onClick={() => setIsVehicleModalOpen(true)}
@@ -943,8 +943,8 @@ export default function DriverDashboardPage() {
                     <Truck className="w-5 h-5" />
                     <span className="font-medium">
                       {assignVehicleMutation.isPending
-                        ? "Assigning..."
-                        : "🚗 Select Vehicle"}
+                        ? "Menugaskan..."
+                        : "🚗 Pilih Kendaraan"}
                     </span>
                   </button>
                 )}
@@ -952,11 +952,11 @@ export default function DriverDashboardPage() {
 
               {/* Timeline */}
               <div className="border-t border-gray-200 pt-4">
-                <h3 className="font-semibold text-gray-900 mb-3">Timeline</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">Linimasa</h3>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
                     <Clock className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-600">Assigned:</span>
+                    <span className="text-gray-600">Ditugaskan:</span>
                     <span className="font-medium text-gray-900">
                       {formatDateTime(activeAssignment.assigned_at)}
                     </span>
