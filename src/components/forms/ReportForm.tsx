@@ -10,39 +10,39 @@ import { toast } from "sonner";
 
 const reportSchema = z.object({
   // Requester Information
-  requester_name: z.string().min(1, "Requester name is required").max(255),
-  requester_phone: z.string().min(1, "Phone number is required").max(20),
+  requester_name: z.string().min(1, "Nama pemohon wajib diisi").max(255),
+  requester_phone: z.string().min(1, "Nomor telepon wajib diisi").max(20),
 
   // Transport Type
-  transport_type: z.string().min(1, "Transport type is required"),
+  transport_type: z.string().min(1, "Jenis transportasi wajib diisi"),
   use_stretcher: z.boolean().default(false),
 
   // Patient Information
-  patient_name: z.string().min(1, "Patient name is required").max(255),
+  patient_name: z.string().min(1, "Nama pasien wajib diisi").max(255),
   patient_gender: z.enum(["male", "female"], {
-    errorMap: () => ({ message: "Please select a gender" }),
+    errorMap: () => ({ message: "Silakan pilih jenis kelamin" }),
   }),
   patient_age: z
     .number()
     .int()
-    .min(0, "Age must be at least 0")
-    .max(150, "Age must be less than 150"),
+    .min(0, "Usia minimal 0")
+    .max(150, "Usia maksimal 150"),
   patient_history: z.string().optional().nullable(),
 
   // Pickup & Destination
-  pickup_address: z.string().min(1, "Pickup address is required"),
-  destination_address: z.string().min(1, "Destination address is required"),
-  schedule_date: z.string().min(1, "Schedule date is required"),
-  schedule_time: z.string().min(1, "Schedule time is required"),
+  pickup_address: z.string().min(1, "Alamat jemput wajib diisi"),
+  destination_address: z.string().min(1, "Alamat tujuan wajib diisi"),
+  schedule_date: z.string().min(1, "Tanggal jadwal wajib diisi"),
+  schedule_time: z.string().min(1, "Waktu jadwal wajib diisi"),
 
   // Contact Person
   contact_person_name: z
     .string()
-    .min(1, "Contact person name is required")
+    .min(1, "Nama kontak wajib diisi")
     .max(255),
   contact_person_phone: z
     .string()
-    .min(1, "Contact person phone is required")
+    .min(1, "Telepon kontak wajib diisi")
     .max(20),
 
   // Additional Info
@@ -65,7 +65,7 @@ export default function ReportForm({
   initialData,
   onSubmit,
   isSubmitting = false,
-  submitButtonText = "Submit Request",
+  submitButtonText = "Kirim Permintaan",
 }: ReportFormProps) {
   // Fetch vehicle types
   const { types: vehicleTypes, isLoading: isLoadingVehicleTypes } =
@@ -151,22 +151,22 @@ export default function ReportForm({
       {/* Requester Information */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Requester Information
+          Informasi Pemohon
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Requester Name <span className="text-red-600">*</span>
+              Nama Pemohon <span className="text-red-600">*</span>
             </label>
             <Input
               {...register("requester_name")}
-              placeholder="Enter requester name"
+              placeholder="Masukkan nama pemohon"
               error={errors.requester_name?.message}
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Phone Number <span className="text-red-600">*</span>
+              Nomor Telepon <span className="text-red-600">*</span>
             </label>
             <Input
               {...register("requester_phone")}
@@ -181,12 +181,12 @@ export default function ReportForm({
       {/* Transport Type */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Transport Information
+          Informasi Transportasi
         </h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Transport Type <span className="text-red-600">*</span>
+              Jenis Transportasi <span className="text-red-600">*</span>
             </label>
             <select
               {...register("transport_type", {
@@ -197,7 +197,7 @@ export default function ReportForm({
                 } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed`}
             >
               <option value="">
-                {isLoadingVehicleTypes ? "Loading..." : "Select transport type"}
+                {isLoadingVehicleTypes ? "Memuat..." : "Pilih jenis transportasi"}
               </option>
               {vehicleTypes.map((type) => (
                 <option key={type.id} value={type.id}>
@@ -228,7 +228,7 @@ export default function ReportForm({
                   htmlFor="use_stretcher"
                   className="ml-2 block text-sm text-gray-700"
                 >
-                  Requires Coffin/Keranda
+                  Membutuhkan Peti/Keranda
                 </label>
               </div>
               <div className="text-yellow-700 bg-yellow-100 border border-yellow-300 rounded px-3 py-2 text-sm">
@@ -242,16 +242,16 @@ export default function ReportForm({
       {/* Patient Information */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Patient Information
+          Informasi Pasien
         </h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Patient Name <span className="text-red-600">*</span>
+              Nama Pasien <span className="text-red-600">*</span>
             </label>
             <Input
               {...register("patient_name")}
-              placeholder="Enter patient name"
+              placeholder="Masukkan nama pasien"
               error={errors.patient_name?.message}
             />
           </div>
@@ -259,15 +259,15 @@ export default function ReportForm({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Gender <span className="text-red-600">*</span>
+                Jenis Kelamin <span className="text-red-600">*</span>
               </label>
               <select
                 {...register("patient_gender")}
                 className={`w-full px-4 py-2 border ${errors.patient_gender ? "border-red-500" : "border-gray-300"
                   } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
               >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="male">Laki-laki</option>
+                <option value="female">Perempuan</option>
               </select>
               {errors.patient_gender && (
                 <p className="text-red-500 text-sm mt-1">
@@ -278,14 +278,14 @@ export default function ReportForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Age <span className="text-red-600">*</span>
+                Usia <span className="text-red-600">*</span>
               </label>
               <Input
                 {...register("patient_age", { valueAsNumber: true })}
                 type="number"
                 min="0"
                 max="150"
-                placeholder="Enter patient age"
+                placeholder="Masukkan usia pasien"
                 error={errors.patient_age?.message}
               />
             </div>
@@ -293,12 +293,12 @@ export default function ReportForm({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Medical History (Optional)
+              Riwayat Medis (Opsional)
             </label>
             <textarea
               {...register("patient_history")}
               rows={3}
-              placeholder="Enter relevant medical history..."
+              placeholder="Masukkan riwayat medis..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
           </div>
@@ -308,17 +308,17 @@ export default function ReportForm({
       {/* Pickup & Destination */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Pickup & Destination
+          Lokasi Jemput & Tujuan
         </h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Pickup Address <span className="text-red-600">*</span>
+              Alamat Jemput <span className="text-red-600">*</span>
             </label>
             <textarea
               {...register("pickup_address")}
               rows={2}
-              placeholder="Enter pickup address"
+              placeholder="Masukkan alamat jemput"
               className={`w-full px-4 py-2 border ${errors.pickup_address ? "border-red-500" : "border-gray-300"
                 } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
             />
@@ -331,15 +331,15 @@ export default function ReportForm({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Destination Address <span className="text-red-600">*</span>
+              Alamat Tujuan <span className="text-red-600">*</span>
             </label>
             <textarea
               {...register("destination_address")}
               rows={2}
-              placeholder="Enter destination address"
+              placeholder="Masukkan alamat tujuan"
               className={`w-full px-4 py-2 border ${errors.destination_address
-                  ? "border-red-500"
-                  : "border-gray-300"
+                ? "border-red-500"
+                : "border-gray-300"
                 } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
             />
             {errors.destination_address && (
@@ -352,7 +352,7 @@ export default function ReportForm({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Schedule Date <span className="text-red-600">*</span>
+                Tanggal Jadwal <span className="text-red-600">*</span>
               </label>
               <Input
                 {...register("schedule_date")}
@@ -362,7 +362,7 @@ export default function ReportForm({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Schedule Time <span className="text-red-600">*</span>
+                Waktu Jadwal <span className="text-red-600">*</span>
               </label>
               <Input
                 {...register("schedule_time")}
@@ -377,22 +377,22 @@ export default function ReportForm({
       {/* Contact Person */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Contact Person
+          Kontak Person
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Contact Person Name <span className="text-red-600">*</span>
+              Nama Kontak <span className="text-red-600">*</span>
             </label>
             <Input
               {...register("contact_person_name")}
-              placeholder="Enter contact person name"
+              placeholder="Masukkan nama kontak"
               error={errors.contact_person_name?.message}
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Contact Person Phone <span className="text-red-600">*</span>
+              Telepon Kontak <span className="text-red-600">*</span>
             </label>
             <Input
               {...register("contact_person_phone")}
@@ -407,17 +407,17 @@ export default function ReportForm({
       {/* Additional Information */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Additional Information
+          Informasi Tambahan
         </h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Note (Optional)
+              Catatan (Opsional)
             </label>
             <textarea
               {...register("note")}
               rows={3}
-              placeholder="Enter any additional notes..."
+              placeholder="Masukkan catatan tambahan..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
           </div>
@@ -425,41 +425,41 @@ export default function ReportForm({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                KTP Attachment (Optional)
+                Lampiran KTP (Opsional)
               </label>
               <Input
                 {...register("attachment_ktp")}
                 type="text"
-                placeholder="KTP URL or file path"
+                placeholder="URL atau path file KTP"
                 error={errors.attachment_ktp?.message}
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                House Photo (Optional)
+                Foto Rumah (Opsional)
               </label>
               <Input
                 {...register("attachment_house_photo")}
                 type="text"
-                placeholder="Photo URL or file path"
+                placeholder="URL atau path file foto"
                 error={errors.attachment_house_photo?.message}
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Share Location (Optional)
+                Bagikan Lokasi (Opsional)
               </label>
               <Input
                 {...register("attachment_sharelok")}
                 type="text"
-                placeholder="Location link"
+                placeholder="Link lokasi"
                 error={errors.attachment_sharelok?.message}
               />
             </div>
           </div>
 
           <p className="text-sm text-gray-500">
-            💡 Tip: Attachments help us verify and process your request faster
+            💡 Tips: Lampiran membantu kami memverifikasi dan memproses permintaan Anda lebih cepat
           </p>
         </div>
       </div>
@@ -471,7 +471,7 @@ export default function ReportForm({
           disabled={isSubmitting}
           className="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
         >
-          {isSubmitting ? "Saving..." : submitButtonText}
+          {isSubmitting ? "Menyimpan..." : submitButtonText}
         </button>
       </div>
     </form>

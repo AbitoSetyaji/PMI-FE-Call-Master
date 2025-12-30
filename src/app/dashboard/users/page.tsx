@@ -37,12 +37,12 @@ export default function UsersPage() {
     mutationFn: (id: string) => users.deleteUser(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("User deleted successfully");
+      toast.success("Pengguna berhasil dihapus");
     },
     onError: (error: Error) => {
       const axiosError = error as { response?: { data?: { detail?: string } } };
       toast.error(
-        axiosError?.response?.data?.detail || "Failed to delete user"
+        axiosError?.response?.data?.detail || "Gagal menghapus pengguna"
       );
     },
   });
@@ -57,17 +57,17 @@ export default function UsersPage() {
 
   const handleDelete = (id: string, name: string) => {
     if (id === user?.id) {
-      toast.error("You cannot delete your own account");
+      toast.error("Anda tidak dapat menghapus akun sendiri");
       return;
     }
-    if (confirm(`Are you sure you want to delete user "${name}"?`)) {
+    if (confirm(`Apakah Anda yakin ingin menghapus pengguna "${name}"?`)) {
       deleteMutation.mutate(id);
     }
   };
 
   const handleEdit = (editUser: User) => {
     if (editUser.id === user?.id) {
-      toast.info("To edit your own account, use the profile settings");
+      toast.info("Untuk mengubah akun sendiri, gunakan pengaturan profil");
       return;
     }
     setSelectedUser(editUser);
@@ -84,9 +84,9 @@ export default function UsersPage() {
           <Shield className="w-8 h-8 text-red-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Users Management
+              Manajemen Pengguna
             </h1>
-            <p className="text-gray-600 mt-1">Manage system users and roles</p>
+            <p className="text-gray-600 mt-1">Kelola pengguna dan peran sistem</p>
           </div>
         </div>
         <button
@@ -94,7 +94,7 @@ export default function UsersPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
         >
           <Plus className="w-5 h-5" />
-          Add User
+          Tambah Pengguna
         </button>
       </div>
 
@@ -102,20 +102,20 @@ export default function UsersPage() {
       <div className="bg-white rounded-lg shadow p-4">
         <div className="flex flex-wrap items-center gap-4">
           <label className="text-sm font-medium text-gray-700">
-            Filter by Role:
+            Filter berdasarkan Peran:
           </label>
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value as UserRole | "all")}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
           >
-            <option value="all">All Roles</option>
+            <option value="all">Semua Peran</option>
             <option value="admin">Admin</option>
             <option value="driver">Driver</option>
             <option value="reporter">Reporter</option>
           </select>
           <div className="ml-auto text-sm text-gray-600">
-            Total: {usersList.length} user{usersList.length !== 1 ? "s" : ""}
+            Total: {usersList.length} pengguna
           </div>
         </div>
       </div>
@@ -123,14 +123,14 @@ export default function UsersPage() {
       {/* Users List */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {isLoading ? (
-          <div className="p-8 text-center text-gray-500">Loading users...</div>
+          <div className="p-8 text-center text-gray-500">Memuat pengguna...</div>
         ) : error ? (
           <div className="p-8 text-center text-red-600">
-            Error loading users
+            Gagal memuat pengguna
           </div>
         ) : usersList.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
-            No users found for the selected filter.
+            Tidak ada pengguna ditemukan untuk filter yang dipilih.
           </div>
         ) : (
           <>
@@ -140,19 +140,19 @@ export default function UsersPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
+                      Nama
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Email
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Role
+                      Peran
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Created
+                      Dibuat
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
+                      Aksi
                     </th>
                   </tr>
                 </thead>
@@ -166,7 +166,7 @@ export default function UsersPage() {
                               {userItem.name}
                               {userItem.id === user?.id && (
                                 <span className="ml-2 text-xs text-blue-600">
-                                  (You)
+                                  (Anda)
                                 </span>
                               )}
                             </div>
@@ -220,7 +220,7 @@ export default function UsersPage() {
                         {userItem.name}
                         {userItem.id === user?.id && (
                           <span className="ml-2 text-xs text-blue-600">
-                            (You)
+                            (Anda)
                           </span>
                         )}
                       </h3>
@@ -232,7 +232,7 @@ export default function UsersPage() {
                   </div>
 
                   <p className="text-xs text-gray-500 mb-3">
-                    Created: {userItem.created_at ? formatDateTime(userItem.created_at) : "-"}
+                    Dibuat: {userItem.created_at ? formatDateTime(userItem.created_at) : "-"}
                   </p>
 
                   {userItem.id !== user?.id && (
@@ -242,14 +242,14 @@ export default function UsersPage() {
                         className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                       >
                         <Edit className="w-4 h-4 inline mr-1" />
-                        Edit
+                        Ubah
                       </button>
                       <button
                         onClick={() => handleDelete(userItem.id, userItem.name)}
                         className="flex-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
                       >
                         <Trash2 className="w-4 h-4 inline mr-1" />
-                        Delete
+                        Hapus
                       </button>
                     </div>
                   )}
@@ -307,13 +307,13 @@ function UserModal({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       toast.success(
-        editUser ? "User updated successfully" : "User created successfully"
+        editUser ? "Pengguna berhasil diperbarui" : "Pengguna berhasil dibuat"
       );
       onClose();
     },
     onError: (error: Error) => {
       const axiosError = error as { response?: { data?: { detail?: string } } };
-      toast.error(axiosError?.response?.data?.detail || "Failed to save user");
+      toast.error(axiosError?.response?.data?.detail || "Gagal menyimpan pengguna");
     },
   });
 
@@ -322,7 +322,7 @@ function UserModal({
 
     // Validate password for new user
     if (!editUser && !formData.password) {
-      toast.error("Password is required for new users");
+      toast.error("Password diperlukan untuk pengguna baru");
       return;
     }
 
@@ -335,13 +335,13 @@ function UserModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-md w-full p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
-          {editUser ? "Edit User" : "Add New User"}
+          {editUser ? "Ubah Pengguna" : "Tambah Pengguna Baru"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Name <span className="text-red-600">*</span>
+              Nama <span className="text-red-600">*</span>
             </label>
             <input
               type="text"
@@ -373,7 +373,7 @@ function UserModal({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password {editUser && "(Leave empty to keep current)"}
+              Kata Sandi {editUser && "(Biarkan kosong untuk mempertahankan)"}
               {!editUser && <span className="text-red-600">*</span>}
             </label>
             <input
@@ -390,7 +390,7 @@ function UserModal({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Role <span className="text-red-600">*</span>
+              Peran <span className="text-red-600">*</span>
             </label>
             <select
               value={formData.role}
@@ -412,7 +412,7 @@ function UserModal({
               onClick={onClose}
               className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              Cancel
+              Batal
             </button>
             <button
               type="submit"
@@ -420,10 +420,10 @@ function UserModal({
               className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
             >
               {mutation.isPending
-                ? "Saving..."
+                ? "Menyimpan..."
                 : editUser
-                  ? "Update"
-                  : "Create"}
+                  ? "Perbarui"
+                  : "Buat"}
             </button>
           </div>
         </form>

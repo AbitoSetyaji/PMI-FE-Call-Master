@@ -9,13 +9,27 @@ import { Badge } from "@/components/ui/Badge";
 import type { Report, Assignment, Vehicle } from "@/lib/types";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const router = useRouter();
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    // Set initial time
+    setCurrentTime(new Date());
+
+    // Update time every second
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   useEffect(() => {
     if (user?.role === "driver") {
       router.replace("/driver");
@@ -80,6 +94,22 @@ export default function DashboardPage() {
     : [];
   const recentReports = filteredReports.slice(0, 5);
 
+  // Format date and time in Indonesian
+  const formatIndonesianDate = (date: Date) => {
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    const dayName = days[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${dayName}, ${day} ${month} ${year} • ${hours}:${minutes}:${seconds} WIB`;
+  };
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -87,6 +117,9 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-gray-900">Dasbor</h1>
         <p className="text-gray-600 mt-1">
           Selamat datang di Sistem Panggilan Darurat PMI
+        </p>
+        <p className="text-sm text-gray-500 mt-2 font-medium">
+          🕐 {currentTime ? formatIndonesianDate(currentTime) : '--:--:--'}
         </p>
       </div>
 

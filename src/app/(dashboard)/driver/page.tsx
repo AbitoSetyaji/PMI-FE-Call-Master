@@ -139,6 +139,28 @@ export default function DriverDashboardPage() {
   const report = reportData;
   const vehicle = vehicleData?.data;
 
+  // Load coffin checklist state from localStorage when assignment changes
+  useEffect(() => {
+    if (activeAssignment?.id) {
+      const storageKey = `coffin_checklist_${activeAssignment.id}`;
+      const savedState = localStorage.getItem(storageKey);
+      if (savedState === 'true') {
+        setCoffinChecklistConfirmed(true);
+      } else {
+        setCoffinChecklistConfirmed(false);
+      }
+    }
+  }, [activeAssignment?.id]);
+
+  // Save coffin checklist state to localStorage when it changes
+  const handleCoffinChecklistChange = (checked: boolean) => {
+    setCoffinChecklistConfirmed(checked);
+    if (activeAssignment?.id) {
+      const storageKey = `coffin_checklist_${activeAssignment.id}`;
+      localStorage.setItem(storageKey, String(checked));
+    }
+  };
+
   // Function to send location to server
   const sendLocationToServer = useCallback(async (lat: number, lng: number) => {
     if (!user?.id) {
@@ -761,13 +783,13 @@ export default function DriverDashboardPage() {
               <div className={`border rounded-lg p-4 ${report?.use_stretcher ? 'border-red-400 bg-red-50' : 'border-gray-200'}`}>
                 <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                   <Truck className="w-5 h-5 text-blue-600" />
-                  Transport Information
+                  Informasi Transportasi
                 </h3>
                 {report ? (
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-sm text-gray-600">Transport Type</p>
+                        <p className="text-sm text-gray-600">Jenis Transportasi</p>
                         <p className="font-medium text-gray-900">
                           {report.transport_type_name
                             ? report.transport_type_name
@@ -777,9 +799,9 @@ export default function DriverDashboardPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Coffin Required</p>
+                        <p className="text-sm text-gray-600">Keranda Jenazah Diperlukan</p>
                         <p className="font-medium text-gray-900">
-                          {report.use_stretcher ? "✓ Yes" : "✗ No"}
+                          {report.use_stretcher ? "✓ Ya" : "✗ Tidak"}
                         </p>
                       </div>
                     </div>
@@ -790,9 +812,9 @@ export default function DriverDashboardPage() {
                         <div className="flex items-center gap-3">
                           <AlertTriangle className="w-8 h-8 flex-shrink-0" />
                           <div>
-                            <h4 className="font-bold text-lg">⚠️ PETI JENAZAH DIPERLUKAN</h4>
+                            <h4 className="font-bold text-lg">⚠️ KERANDA JENAZAH DIPERLUKAN</h4>
                             <p className="text-sm text-red-100 mt-1">
-                              Pastikan peti jenazah dan perlengkapan sudah siap sebelum berangkat!
+                              Pastikan keranda jenazah dan perlengkapan sudah siap sebelum berangkat!
                             </p>
                           </div>
                         </div>
@@ -808,7 +830,7 @@ export default function DriverDashboardPage() {
                         <ul className="space-y-2 text-sm text-gray-700">
                           <li className="flex items-center gap-2">
                             <CheckSquare className="w-4 h-4 text-amber-600" />
-                            Peti jenazah dalam kondisi baik
+                            Keranda jenazah dalam kondisi baik
                           </li>
                           <li className="flex items-center gap-2">
                             <CheckSquare className="w-4 h-4 text-amber-600" />
@@ -832,7 +854,7 @@ export default function DriverDashboardPage() {
                         <div className="mt-4 pt-4 border-t border-amber-300">
                           <label
                             className="flex items-center gap-3 cursor-pointer select-none"
-                            onClick={() => setCoffinChecklistConfirmed(!coffinChecklistConfirmed)}
+                            onClick={() => handleCoffinChecklistChange(!coffinChecklistConfirmed)}
                           >
                             {coffinChecklistConfirmed ? (
                               <CheckSquare className="w-6 h-6 text-green-600" />
