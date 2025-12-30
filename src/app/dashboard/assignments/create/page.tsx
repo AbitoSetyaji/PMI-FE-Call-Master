@@ -47,11 +47,11 @@ function CreateAssignmentContent() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["assignments"] });
             queryClient.invalidateQueries({ queryKey: ["reports"] });
-            toast.success("Assignment created successfully");
+            toast.success("Penugasan berhasil dibuat");
             router.push("/dashboard/assignments");
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Failed to create assignment");
+            toast.error(error.message || "Gagal membuat penugasan");
         },
     });
 
@@ -59,12 +59,12 @@ function CreateAssignmentContent() {
         e.preventDefault();
 
         if (!selectedReportId) {
-            toast.error("Please select a report");
+            toast.error("Silakan pilih laporan");
             return;
         }
 
         if (!selectedDriverId) {
-            toast.error("Please select a driver");
+            toast.error("Silakan pilih driver");
             return;
         }
 
@@ -85,9 +85,9 @@ function CreateAssignmentContent() {
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Create New Assignment</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Buat Penugasan Baru</h1>
                     <p className="text-gray-600 mt-1">
-                        Assign a driver to a pending report
+                        Tugaskan driver ke laporan yang menunggu
                     </p>
                 </div>
             </div>
@@ -101,12 +101,12 @@ function CreateAssignmentContent() {
                             htmlFor="report_id"
                             className="block text-sm font-medium text-gray-700 mb-2"
                         >
-                            Report <span className="text-red-500">*</span>
+                            Laporan <span className="text-red-500">*</span>
                         </label>
                         {isLoadingReports ? (
                             <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
-                                <span className="text-sm text-gray-600">Loading reports...</span>
+                                <span className="text-sm text-gray-600">Memuat laporan...</span>
                             </div>
                         ) : (
                             <select
@@ -116,7 +116,7 @@ function CreateAssignmentContent() {
                                 disabled={createMutation.isPending}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             >
-                                <option value="">Select a report</option>
+                                <option value="">Pilih laporan</option>
                                 {pendingReports.map((report: Report) => (
                                     <option key={report.id} value={report.id}>
                                         {report.requester_name} - {report.patient_name} ({report.schedule_date})
@@ -126,7 +126,7 @@ function CreateAssignmentContent() {
                         )}
                         {pendingReports.length === 0 && !isLoadingReports && (
                             <p className="text-sm text-yellow-600 mt-1">
-                                No pending reports available for assignment.
+                                Tidak ada laporan menunggu yang tersedia untuk ditugaskan.
                             </p>
                         )}
                     </div>
@@ -142,7 +142,7 @@ function CreateAssignmentContent() {
                         {isLoadingDrivers ? (
                             <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
-                                <span className="text-sm text-gray-600">Loading drivers...</span>
+                                <span className="text-sm text-gray-600">Memuat driver...</span>
                             </div>
                         ) : (
                             <select
@@ -152,7 +152,7 @@ function CreateAssignmentContent() {
                                 disabled={createMutation.isPending}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                             >
-                                <option value="">Select a driver</option>
+                                <option value="">Pilih driver</option>
                                 {drivers.map((driver: User) => (
                                     <option key={driver.id} value={driver.id}>
                                         {driver.name} ({driver.email})
@@ -162,7 +162,7 @@ function CreateAssignmentContent() {
                         )}
                         {drivers.length === 0 && !isLoadingDrivers && (
                             <p className="text-sm text-yellow-600 mt-1">
-                                No drivers available.
+                                Tidak ada driver tersedia.
                             </p>
                         )}
                     </div>
@@ -178,17 +178,17 @@ function CreateAssignmentContent() {
                         {createMutation.isPending ? (
                             <span className="flex items-center gap-2">
                                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Creating...
+                                Membuat...
                             </span>
                         ) : (
-                            "Create Assignment"
+                            "Buat Penugasan"
                         )}
                     </button>
                     <Link
                         href="/dashboard/assignments"
                         className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
                     >
-                        Cancel
+                        Batal
                     </Link>
                 </div>
             </form>
@@ -202,7 +202,7 @@ export default function CreateAssignmentPage() {
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading...</p>
+                    <p className="text-gray-600">Memuat...</p>
                 </div>
             </div>
         }>

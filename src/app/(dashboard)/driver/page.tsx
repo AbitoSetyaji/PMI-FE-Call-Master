@@ -806,8 +806,8 @@ export default function DriverDashboardPage() {
                       </div>
                     </div>
 
-                    {/* Prominent Alert for Coffin Required */}
-                    {report.use_stretcher && (
+                    {/* Prominent Alert for Coffin Required - Only show when status is assigned */}
+                    {report.use_stretcher && report.status === "assigned" && (
                       <div className="bg-red-600 text-white rounded-lg p-4 shadow-lg animate-pulse">
                         <div className="flex items-center gap-3">
                           <AlertTriangle className="w-8 h-8 flex-shrink-0" />
@@ -821,8 +821,8 @@ export default function DriverDashboardPage() {
                       </div>
                     )}
 
-                    {/* Preparation Checklist for Mortuary Transport */}
-                    {report.use_stretcher && (
+                    {/* Preparation Checklist for Mortuary Transport - Only show when status is assigned */}
+                    {report.use_stretcher && report.status === "assigned" && (
                       <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-4">
                         <h4 className="font-semibold text-amber-800 mb-3 flex items-center gap-2">
                           📋 Checklist Persiapan Perlengkapan

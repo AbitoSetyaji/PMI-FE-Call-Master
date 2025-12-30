@@ -17,11 +17,11 @@ export default function CreateReportPage() {
         mutationFn: (data: CreateReportRequest) => reportsApi.create(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["reports"] });
-            toast.success("Report created successfully");
+            toast.success("Laporan berhasil dibuat");
             router.push("/dashboard/reports");
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Failed to create report");
+            toast.error(error.message || "Gagal membuat laporan");
         },
     });
 
@@ -40,9 +40,9 @@ export default function CreateReportPage() {
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Create New Report</h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Buat Laporan Baru</h1>
                     <p className="text-gray-600 mt-1">
-                        Fill in the form below to create a new emergency report
+                        Isi formulir di bawah untuk membuat laporan darurat baru
                     </p>
                 </div>
             </div>
