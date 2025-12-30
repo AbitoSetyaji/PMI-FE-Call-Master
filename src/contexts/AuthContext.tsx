@@ -94,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/auth/login`,
+          `/api/auth/login`,
           {
             method: "POST",
             headers: {
@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/auth/register`,
+          `/api/auth/register`,
           {
             method: "POST",
             headers: {

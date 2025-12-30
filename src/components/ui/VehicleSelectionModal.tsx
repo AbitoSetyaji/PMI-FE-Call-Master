@@ -29,7 +29,7 @@ export default function VehicleSelectionModal({
         queryFn: async () => {
             const token = localStorage.getItem("pmi_auth_token");
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/vehicles`,
+                `/api/vehicles`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

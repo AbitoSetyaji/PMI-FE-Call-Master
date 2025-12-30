@@ -164,7 +164,7 @@ export function useVehicleType(id: string) {
         queryKey: ["vehicleType", id],
         queryFn: async () => {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/vehicle-types/${id}`,
+                `/api/vehicle-types/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("pmi_auth_token")}`,
