@@ -65,9 +65,9 @@ export default function AssignmentsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Assignments</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Penugasan</h1>
           <p className="text-gray-600 mt-1">
-            Manage vehicle and driver assignments
+            Kelola penugasan kendaraan dan driver
           </p>
         </div>
         <Link
@@ -75,7 +75,7 @@ export default function AssignmentsPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
         >
           <Plus className="w-5 h-5" />
-          New Assignment
+          Penugasan Baru
         </Link>
       </div>
 
@@ -99,12 +99,12 @@ export default function AssignmentsPage() {
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
             >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="assigned">Assigned</option>
-              <option value="on_progress">On Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="all">Semua Status</option>
+              <option value="active">Aktif</option>
+              <option value="assigned">Ditugaskan</option>
+              <option value="on_progress">Dalam Proses</option>
+              <option value="completed">Selesai</option>
+              <option value="cancelled">Dibatalkan</option>
             </select>
           </div>
         </div>
@@ -114,17 +114,17 @@ export default function AssignmentsPage() {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-500">
-            Loading assignments...
+            Memuat penugasan...
           </div>
         ) : error ? (
           <div className="p-8 text-center text-red-600">
-            Error loading assignments
+            Gagal memuat penugasan
           </div>
         ) : filteredAssignments.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             {statusFilter === "all"
-              ? "No assignments found"
-              : `No ${statusFilter} assignments found`}
+              ? "Tidak ada penugasan ditemukan"
+              : `Tidak ada penugasan ${statusFilter} ditemukan`}
           </div>
         ) : (
           <>
@@ -134,10 +134,10 @@ export default function AssignmentsPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Report ID
+                      ID Laporan
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Vehicle
+                      Kendaraan
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Driver
@@ -146,13 +146,13 @@ export default function AssignmentsPage() {
                       Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Assigned
+                      Ditugaskan
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Updated
+                      Diperbarui
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
+                      Aksi
                     </th>
                   </tr>
                 </thead>
@@ -168,12 +168,12 @@ export default function AssignmentsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {assignment.vehicle_plate || "No vehicle"}
+                          {assignment.vehicle_plate || "Tidak ada kendaraan"}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {assignment.driver_name || "Unknown"}
+                          {assignment.driver_name || "Tidak diketahui"}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -192,7 +192,7 @@ export default function AssignmentsPage() {
                           href={`/dashboard/assignments/${assignment.id}`}
                           className="text-red-600 hover:text-red-900 font-medium"
                         >
-                          View Details
+                          Lihat Detail
                         </Link>
                       </td>
                     </tr>
@@ -212,7 +212,7 @@ export default function AssignmentsPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 mb-1 font-mono text-xs">
-                        Report: {assignment.report_id.substring(0, 8)}...
+                        Laporan: {assignment.report_id.substring(0, 8)}...
                       </h3>
                     </div>
                     <Badge variant={assignment.status}>
@@ -222,24 +222,24 @@ export default function AssignmentsPage() {
 
                   <div className="grid grid-cols-2 gap-2 text-sm mb-2">
                     <div>
-                      <span className="text-gray-500">Vehicle:</span>
+                      <span className="text-gray-500">Kendaraan:</span>
                       <p className="font-medium text-gray-900">
-                        {assignment.vehicle_plate || "No vehicle"}
+                        {assignment.vehicle_plate || "Tidak ada kendaraan"}
                       </p>
                     </div>
                     <div>
                       <span className="text-gray-500">Driver:</span>
                       <p className="font-medium text-gray-900">
-                        {assignment.driver_name || "Unknown"}
+                        {assignment.driver_name || "Tidak diketahui"}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-xs text-gray-500">
-                    Assigned: {formatDateTime(assignment.assigned_at)}
+                    Ditugaskan: {formatDateTime(assignment.assigned_at)}
                   </p>
                   <p className="text-xs text-gray-500">
-                    Updated: {assignment.updated_at ? formatDateTime(assignment.updated_at) : "-"}
+                    Diperbarui: {assignment.updated_at ? formatDateTime(assignment.updated_at) : "-"}
                   </p>
                 </Link>
               ))}

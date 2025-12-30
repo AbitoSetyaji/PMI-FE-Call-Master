@@ -84,10 +84,10 @@ export default function ReportsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Emergency Reports
+            Laporan Darurat
           </h1>
           <p className="text-gray-600 mt-1">
-            Manage and track all emergency reports
+            Kelola dan lacak semua laporan darurat
           </p>
         </div>
         <Link
@@ -95,7 +95,7 @@ export default function ReportsPage() {
           className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
         >
           <Plus className="w-5 h-5" />
-          New Report
+          Laporan Baru
         </Link>
       </div>
 
@@ -110,13 +110,13 @@ export default function ReportsPage() {
           {/* Search */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Search
+              Cari
             </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Requester, patient, phone, or address..."
+                placeholder="Pemohon, pasien, telepon, atau alamat..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
@@ -136,14 +136,14 @@ export default function ReportsPage() {
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
             >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="assigned">Assigned</option>
-              <option value="on_way">On the Way</option>
-              <option value="arrived_pickup">Arrived at Pickup</option>
-              <option value="arrived_destination">Arrived at Destination</option>
-              <option value="done">Completed</option>
-              <option value="canceled">Cancelled</option>
+              <option value="all">Semua Status</option>
+              <option value="pending">Menunggu</option>
+              <option value="assigned">Ditugaskan</option>
+              <option value="on_way">Dalam Perjalanan</option>
+              <option value="arrived_pickup">Tiba di Lokasi Jemput</option>
+              <option value="arrived_destination">Tiba di Tujuan</option>
+              <option value="done">Selesai</option>
+              <option value="canceled">Dibatalkan</option>
             </select>
           </div>
         </div>
@@ -153,14 +153,14 @@ export default function ReportsPage() {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {isLoading ? (
           <div className="p-8 text-center text-gray-500">
-            Loading reports...
+            Memuat laporan...
           </div>
         ) : error ? (
           <div className="p-8 text-center text-red-600">
-            Error loading reports
+            Gagal memuat laporan
           </div>
         ) : filteredReports.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No reports found</div>
+          <div className="p-8 text-center text-gray-500">Tidak ada laporan ditemukan</div>
         ) : (
           <>
             {/* Desktop Table */}
@@ -169,22 +169,22 @@ export default function ReportsPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Requester
+                      Pemohon
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Patient
+                      Pasien
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Route
+                      Rute
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Schedule
+                      Jadwal
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
+                      Aksi
                     </th>
                   </tr>
                 </thead>
@@ -205,7 +205,7 @@ export default function ReportsPage() {
                         </div>
                         <div className="text-sm text-gray-500">
                           {report.patient_gender === "male" ? "♂" : "♀"}{" "}
-                          {report.patient_age} years
+                          {report.patient_age} tahun
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -234,7 +234,7 @@ export default function ReportsPage() {
                           href={`/dashboard/reports/${report.id}`}
                           className="text-red-600 hover:text-red-900 font-medium"
                         >
-                          View Details
+                          Lihat Detail
                         </Link>
                       </td>
                     </tr>
@@ -266,33 +266,33 @@ export default function ReportsPage() {
                   <div className="space-y-2 mb-3">
                     <div className="text-sm">
                       <span className="font-medium text-gray-700">
-                        Patient:
+                        Pasien:
                       </span>{" "}
                       <span className="text-gray-900">
                         {report.patient_name}
                       </span>
                       <span className="text-gray-500 ml-2">
                         ({report.patient_gender === "male" ? "♂" : "♀"}{" "}
-                        {report.patient_age}y)
+                        {report.patient_age} thn)
                       </span>
                     </div>
 
                     <div className="text-sm text-gray-600">
                       <div className="truncate">
-                        📍 From: {report.pickup_address}
+                        📍 Dari: {report.pickup_address}
                       </div>
                       <div className="truncate">
-                        🏥 To: {report.destination_address}
+                        🏥 Ke: {report.destination_address}
                       </div>
                     </div>
 
                     <div className="text-sm text-gray-600">
-                      � {report.schedule_date} at {report.schedule_time}
+                      📅 {report.schedule_date} pukul {report.schedule_time}
                     </div>
                   </div>
 
                   <p className="text-xs text-gray-500">
-                    Created: {formatDateTime(report.created_at)}
+                    Dibuat: {formatDateTime(report.created_at)}
                   </p>
                 </Link>
               ))}
@@ -307,17 +307,17 @@ export default function ReportsPage() {
                     disabled={page === 1}
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Previous
+                    Sebelumnya
                   </button>
                   <span className="text-sm text-gray-700">
-                    Page {page} of {totalPages}
+                    Halaman {page} dari {totalPages}
                   </span>
                   <button
                     onClick={() => setPage(Math.min(totalPages, page + 1))}
                     disabled={page === totalPages}
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Next
+                    Selanjutnya
                   </button>
                 </div>
               </div>

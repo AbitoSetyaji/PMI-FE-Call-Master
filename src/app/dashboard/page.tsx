@@ -84,40 +84,40 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Dasbor</h1>
         <p className="text-gray-600 mt-1">
-          Welcome to PMI Emergency Call System
+          Selamat datang di Sistem Panggilan Darurat PMI
         </p>
       </div>
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
-          title="Total Reports"
+          title="Total Laporan"
           value={totalReports}
           icon={FileText}
-          description={`${pendingReports} pending`}
+          description={`${pendingReports} menunggu`}
           color="red"
         />
         <StatsCard
-          title="Active Assignments"
+          title="Penugasan Aktif"
           value={activeAssignments}
           icon={ClipboardList}
-          description="Currently in progress"
+          description="Sedang dalam proses"
           color="blue"
         />
         <StatsCard
-          title="Available Vehicles"
+          title="Kendaraan Tersedia"
           value={availableVehicles}
           icon={Truck}
-          description="Ready for dispatch"
+          description="Siap dikirim"
           color="green"
         />
         <StatsCard
-          title="System Status"
-          value="Active"
+          title="Status Sistem"
+          value="Aktif"
           icon={Activity}
-          description="All systems operational"
+          description="Semua sistem beroperasi"
           color="green"
         />
       </div>
@@ -126,23 +126,23 @@ export default function DashboardPage() {
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">
-            Recent Reports
+            Laporan Terbaru
           </h2>
           <Link
             href="/dashboard/reports"
             className="text-sm text-red-600 hover:text-red-700 font-medium"
           >
-            View All →
+            Lihat Semua →
           </Link>
         </div>
 
         <div className="divide-y divide-gray-200">
           {loadingReports ? (
             <div className="p-6 text-center text-gray-500">
-              Loading reports...
+              Memuat laporan...
             </div>
           ) : recentReports.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">No reports yet</div>
+            <div className="p-6 text-center text-gray-500">Belum ada laporan</div>
           ) : (
             recentReports.map((report: Report) => (
               <Link
@@ -181,9 +181,9 @@ export default function DashboardPage() {
           href="/dashboard/reports/create"
           className="p-6 bg-red-50 border-2 border-red-200 rounded-lg hover:bg-red-100 transition-colors"
         >
-          <h3 className="font-semibold text-red-900 mb-2">Create New Report</h3>
+          <h3 className="font-semibold text-red-900 mb-2">Buat Laporan Baru</h3>
           <p className="text-sm text-red-700">
-            Report a new emergency incident
+            Laporkan insiden darurat baru
           </p>
         </Link>
 
@@ -193,10 +193,10 @@ export default function DashboardPage() {
             className="p-6 bg-blue-50 border-2 border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
           >
             <h3 className="font-semibold text-blue-900 mb-2">
-              Create Assignment
+              Buat Penugasan
             </h3>
             <p className="text-sm text-blue-700">
-              Assign vehicle and driver to report
+              Tugaskan kendaraan dan driver ke laporan
             </p>
           </Link>
         )}
@@ -205,9 +205,9 @@ export default function DashboardPage() {
           href="/dashboard/tracking"
           className="p-6 bg-green-50 border-2 border-green-200 rounded-lg hover:bg-green-100 transition-colors"
         >
-          <h3 className="font-semibold text-green-900 mb-2">Track Drivers</h3>
+          <h3 className="font-semibold text-green-900 mb-2">Lacak Driver</h3>
           <p className="text-sm text-green-700">
-            View real-time driver locations
+            Lihat lokasi driver secara real-time
           </p>
         </Link>
       </div>

@@ -107,10 +107,10 @@ export default function TrackingPage() {
           <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-              Real-Time Tracking
+              Pelacakan Real-Time
             </h1>
             <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">
-              Monitor driver locations in real-time
+              Pantau lokasi driver secara real-time
             </p>
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function TrackingPage() {
             className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
           >
             <RefreshCw className="w-4 h-4" />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">Segarkan</span>
           </button>
           <label className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
             <input
@@ -130,7 +130,7 @@ export default function TrackingPage() {
               className="rounded border-gray-300 text-red-600 focus:ring-red-500 w-3.5 h-3.5 sm:w-4 sm:h-4"
             />
             <span className="text-xs sm:text-sm font-medium text-gray-700">
-              Auto<span className="hidden sm:inline">-refresh</span>
+              Otomatis
             </span>
           </label>
         </div>
@@ -153,7 +153,7 @@ export default function TrackingPage() {
         <div className="bg-white rounded-lg shadow p-3 sm:p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs sm:text-sm font-medium text-gray-600">On Duty</p>
+              <p className="text-xs sm:text-sm font-medium text-gray-600">Bertugas</p>
               <p className="text-lg sm:text-2xl md:text-3xl font-bold text-red-600">
                 {activeDrivers.length}
               </p>
@@ -167,7 +167,7 @@ export default function TrackingPage() {
         <div className="bg-white rounded-lg shadow p-3 sm:p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs sm:text-sm font-medium text-gray-600">Idle</p>
+              <p className="text-xs sm:text-sm font-medium text-gray-600">Siaga</p>
               <p className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-600">
                 {idleDrivers.length}
               </p>
@@ -183,7 +183,7 @@ export default function TrackingPage() {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="p-2 sm:p-3 md:p-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-            Driver Locations
+            Lokasi Driver
           </h2>
           <div className="text-xs sm:text-sm text-gray-500">
             {mounted ? lastRefresh.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }) : "--:--:--"}
@@ -194,7 +194,7 @@ export default function TrackingPage() {
           <div className="h-[600px] flex items-center justify-center bg-gray-50">
             <div className="text-center">
               <RefreshCw className="w-8 h-8 text-gray-400 animate-spin mx-auto mb-2" />
-              <p className="text-gray-600">Loading map...</p>
+              <p className="text-gray-600">Memuat peta...</p>
             </div>
           </div>
         ) : (
@@ -240,12 +240,12 @@ export default function TrackingPage() {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="p-2 sm:p-3 md:p-4 border-b border-gray-200">
           <h2 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-            Active Drivers
+            Driver Aktif
           </h2>
         </div>
 
         {locations.length === 0 ? (
-          <div className="p-4 sm:p-6 md:p-8 text-center text-gray-500 text-sm sm:text-base">No drivers online</div>
+          <div className="p-4 sm:p-6 md:p-8 text-center text-gray-500 text-sm sm:text-base">Tidak ada driver online</div>
         ) : (
           <div className="divide-y divide-gray-200">
             {locations.map((location, index) => (
@@ -288,10 +288,10 @@ export default function TrackingPage() {
                         : "bg-gray-100 text-gray-600"
                       }`}>
                       {location.has_location === false
-                        ? "📍 No Location"
+                        ? "📍 Tidak Ada Lokasi"
                         : location.assignment_id
-                          ? "🔴 On Duty"
-                          : "⚪ Idle"}
+                          ? "🔴 Bertugas"
+                          : "⚪ Siaga"}
                     </span>
                     <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">
                       {mounted && location.timestamp
@@ -308,10 +308,10 @@ export default function TrackingPage() {
                   <div className="mt-4 pt-4 border-t border-gray-200 space-y-4">
                     {/* Driver & Vehicle Info */}
                     <div className="bg-gray-50 rounded-lg p-3">
-                      <h4 className="font-semibold text-gray-800 mb-2">📋 Assignment Details</h4>
+                      <h4 className="font-semibold text-gray-800 mb-2">📋 Detail Penugasan</h4>
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
-                          <p className="text-gray-500">Vehicle</p>
+                          <p className="text-gray-500">Kendaraan</p>
                           <p className="font-medium">{location.vehicle_license_plate || "Tidak ada"}</p>
                         </div>
                         <div>
@@ -325,51 +325,51 @@ export default function TrackingPage() {
                     {location.report && (
                       <>
                         <div className="bg-amber-50 rounded-lg p-3">
-                          <h4 className="font-semibold text-gray-800 mb-2">👤 Requester Information</h4>
+                          <h4 className="font-semibold text-gray-800 mb-2">👤 Informasi Pemohon</h4>
                           <div className="grid grid-cols-2 gap-3 text-sm">
                             <div>
-                              <p className="text-gray-500">Name</p>
+                              <p className="text-gray-500">Nama</p>
                               <p className="font-medium">{location.report.requester_name || "-"}</p>
                             </div>
                             <div>
-                              <p className="text-gray-500">Phone</p>
+                              <p className="text-gray-500">Telepon</p>
                               <p className="font-medium">{location.report.requester_phone || "-"}</p>
                             </div>
                           </div>
                         </div>
 
                         <div className="bg-blue-50 rounded-lg p-3">
-                          <h4 className="font-semibold text-gray-800 mb-2">🚑 Transport Information</h4>
+                          <h4 className="font-semibold text-gray-800 mb-2">🚑 Informasi Transportasi</h4>
                           <div className="grid grid-cols-2 gap-3 text-sm">
                             <div>
-                              <p className="text-gray-500">Transport Type</p>
+                              <p className="text-gray-500">Jenis Transportasi</p>
                               <p className="font-medium capitalize">
                                 {location.report.transport_type?.replace(/_/g, " ") || "-"}
                               </p>
                             </div>
                             <div>
-                              <p className="text-gray-500">Coffin Required</p>
+                              <p className="text-gray-500">Peti Jenazah</p>
                               <p className="font-medium">
-                                {location.report.use_stretcher ? "✓ Yes" : "✗ No"}
+                                {location.report.use_stretcher ? "✓ Ya" : "✗ Tidak"}
                               </p>
                             </div>
                           </div>
                         </div>
 
                         <div className="bg-green-50 rounded-lg p-3">
-                          <h4 className="font-semibold text-gray-800 mb-2">📍 Pickup & Destination</h4>
+                          <h4 className="font-semibold text-gray-800 mb-2">📍 Lokasi Jemput & Tujuan</h4>
                           <div className="space-y-2 text-sm">
                             <div>
-                              <p className="text-gray-500">📍 Pickup Address</p>
+                              <p className="text-gray-500">📍 Alamat Jemput</p>
                               <p className="font-medium">{location.report.pickup_address || "-"}</p>
                             </div>
                             <div>
-                              <p className="text-gray-500">🏥 Destination Address</p>
+                              <p className="text-gray-500">🏥 Alamat Tujuan</p>
                               <p className="font-medium">{location.report.destination_address || "-"}</p>
                             </div>
                             {location.report.notes && (
                               <div>
-                                <p className="text-gray-500">📝 Notes</p>
+                                <p className="text-gray-500">📝 Catatan</p>
                                 <p className="font-medium">{location.report.notes}</p>
                               </div>
                             )}
@@ -380,7 +380,7 @@ export default function TrackingPage() {
 
                     {/* Location Coordinates */}
                     <div className="bg-gray-50 rounded-lg p-3">
-                      <h4 className="font-semibold text-gray-800 mb-2">🌍 Current Location</h4>
+                      <h4 className="font-semibold text-gray-800 mb-2">🌍 Lokasi Saat Ini</h4>
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
                           <p className="text-gray-500">Latitude</p>
@@ -399,7 +399,7 @@ export default function TrackingPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm transition-colors"
                     >
-                      🗺️ Open in Google Maps
+                      🗺️ Buka di Google Maps
                     </a>
                   </div>
                 )}

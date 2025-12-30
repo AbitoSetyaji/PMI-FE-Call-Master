@@ -25,33 +25,33 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Dashboard",
+    label: "Dasbor",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    label: "Reports",
+    label: "Laporan",
     href: "/dashboard/reports",
     icon: FileText,
   },
   {
-    label: "Assignments",
+    label: "Penugasan",
     href: "/dashboard/assignments",
     icon: ClipboardList,
   },
   {
-    label: "Vehicles",
+    label: "Kendaraan",
     href: "/dashboard/vehicles",
     icon: Truck,
   },
   {
-    label: "Users",
+    label: "Pengguna",
     href: "/dashboard/users",
     icon: Users,
     adminOnly: true,
   },
   {
-    label: "Tracking",
+    label: "Pelacakan",
     href: "/dashboard/tracking",
     icon: MapPin,
   },
@@ -75,13 +75,13 @@ export default function Sidebar() {
   // Only show relevant menu for driver
   // Default to non-admin menu until mounted to prevent hydration mismatch
   let filteredNavItems = navItems.filter((item) => !item.adminOnly);
-  
+
   if (mounted && user) {
     if (isAdmin) {
       filteredNavItems = navItems;
     } else if (isDriver) {
       filteredNavItems = navItems.filter(
-        (item) => ["Dashboard", "Assignments", "Tracking"].includes(item.label)
+        (item) => ["Dasbor", "Penugasan", "Pelacakan"].includes(item.label)
       );
     } else {
       filteredNavItems = navItems.filter((item) => !item.adminOnly);
@@ -128,10 +128,9 @@ export default function Sidebar() {
           fixed lg:sticky top-0 left-0 h-screen
           w-64 bg-white shadow-lg z-40
           transform transition-transform duration-300 ease-in-out
-          ${
-            isMobileMenuOpen
-              ? "translate-x-0"
-              : "-translate-x-full lg:translate-x-0"
+          ${isMobileMenuOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
           }
         `}
       >
@@ -139,7 +138,7 @@ export default function Sidebar() {
           {/* Logo / Brand */}
           <div className="p-6 border-b">
             <h1 className="text-2xl font-bold text-red-600">PMI</h1>
-            <p className="text-sm text-gray-600">Emergency Call System</p>
+            <p className="text-sm text-gray-600">Sistem Panggilan Darurat</p>
           </div>
 
           {/* Navigation */}
@@ -157,10 +156,9 @@ export default function Sidebar() {
                       className={`
                         flex items-center gap-3 px-4 py-3 rounded-lg
                         transition-colors duration-150
-                        ${
-                          active
-                            ? "bg-red-50 text-red-600 font-medium"
-                            : "text-gray-700 hover:bg-gray-100"
+                        ${active
+                          ? "bg-red-50 text-red-600 font-medium"
+                          : "text-gray-700 hover:bg-gray-100"
                         }
                       `}
                     >
@@ -193,7 +191,7 @@ export default function Sidebar() {
                   className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                 >
                   <LogOut className="w-5 h-5" />
-                  <span>Logout</span>
+                  <span>Keluar</span>
                 </button>
               </>
             ) : (

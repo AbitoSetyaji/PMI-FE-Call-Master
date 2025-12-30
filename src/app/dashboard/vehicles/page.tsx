@@ -48,12 +48,12 @@ export default function VehiclesPage() {
     mutationFn: (id: string) => vehiclesApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vehicles"] });
-      toast.success("Vehicle deleted successfully");
+      toast.success("Kendaraan berhasil dihapus");
     },
     onError: (error: Error) => {
       const axiosError = error as { response?: { data?: { detail?: string } } };
       toast.error(
-        axiosError?.response?.data?.detail || "Failed to delete vehicle"
+        axiosError?.response?.data?.detail || "Gagal menghapus kendaraan"
       );
     },
   });
@@ -82,9 +82,9 @@ export default function VehiclesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Vehicles</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Kendaraan</h1>
           <p className="text-gray-600 mt-1">
-            Manage emergency response vehicles
+            Kelola kendaraan tanggap darurat
           </p>
         </div>
         <div className="flex gap-3">
@@ -92,7 +92,7 @@ export default function VehiclesPage() {
             href="/dashboard/vehicles/types"
             className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
           >
-            Vehicle Types
+            Jenis Kendaraan
           </Link>
           {isAdmin && (
             <Link
@@ -100,7 +100,7 @@ export default function VehiclesPage() {
               className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
               <Plus className="w-5 h-5" />
-              Add Vehicle
+              Tambah Kendaraan
             </Link>
           )}
         </div>
@@ -125,10 +125,10 @@ export default function VehiclesPage() {
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
             >
-              <option value="all">All Status</option>
-              <option value="available">Available</option>
-              <option value="on_duty">On Duty</option>
-              <option value="maintenance">Maintenance</option>
+              <option value="all">Semua Status</option>
+              <option value="available">Tersedia</option>
+              <option value="on_duty">Bertugas</option>
+              <option value="maintenance">Perawatan</option>
             </select>
           </div>
         </div>
@@ -140,13 +140,13 @@ export default function VehiclesPage() {
           <SkeletonTable rows={5} />
         ) : error ? (
           <div className="p-8 text-center text-red-600">
-            Error loading vehicles
+            Gagal memuat kendaraan
           </div>
         ) : filteredVehicles.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             {statusFilter === "all"
-              ? "No vehicles found"
-              : `No ${statusFilter} vehicles found`}
+              ? "Tidak ada kendaraan ditemukan"
+              : `Tidak ada kendaraan ${statusFilter} ditemukan`}
           </div>
         ) : (
           <>
@@ -156,23 +156,23 @@ export default function VehiclesPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
+                      Nama
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Plate Number
+                      Nomor Plat
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Type
+                      Jenis
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Created
+                      Dibuat
                     </th>
                     {isAdmin && (
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
+                        Aksi
                       </th>
                     )}
                   </tr>
@@ -192,7 +192,7 @@ export default function VehiclesPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {vehicle.vehicle_type?.name || "Unknown"}
+                          {vehicle.vehicle_type?.name || "Tidak diketahui"}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -238,14 +238,14 @@ export default function VehiclesPage() {
                         {vehicle.plate_number}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {vehicle.vehicle_type?.name || "Unknown"}
+                        {vehicle.vehicle_type?.name || "Tidak diketahui"}
                       </p>
                     </div>
                     <Badge variant={vehicle.status}>{vehicle.status}</Badge>
                   </div>
 
                   <p className="text-xs text-gray-500 mb-3">
-                    Created: {vehicle.created_at ? formatDateTime(vehicle.created_at) : "-"}
+                    Dibuat: {vehicle.created_at ? formatDateTime(vehicle.created_at) : "-"}
                   </p>
 
                   {isAdmin && (
@@ -255,14 +255,14 @@ export default function VehiclesPage() {
                         className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium text-center"
                       >
                         <Edit className="w-4 h-4 inline mr-1" />
-                        Edit
+                        Ubah
                       </Link>
                       <button
                         onClick={() => handleDelete(vehicle.id, vehicle.name)}
                         className="flex-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
                       >
                         <Trash2 className="w-4 h-4 inline mr-1" />
-                        Delete
+                        Hapus
                       </button>
                     </div>
                   )}
@@ -280,10 +280,10 @@ export default function VehiclesPage() {
           setConfirmDialog({ isOpen: false, vehicleId: "", vehicleName: "" })
         }
         onConfirm={confirmDelete}
-        title="Delete Vehicle"
-        message={`Are you sure you want to delete vehicle "${confirmDialog.vehicleName}"? This action cannot be undone.`}
-        confirmText="Delete"
-        cancelText="Cancel"
+        title="Hapus Kendaraan"
+        message={`Apakah Anda yakin ingin menghapus kendaraan "${confirmDialog.vehicleName}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmText="Hapus"
+        cancelText="Batal"
         type="danger"
         isLoading={deleteMutation.isPending}
       />
