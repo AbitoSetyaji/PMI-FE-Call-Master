@@ -320,7 +320,7 @@ export default function ReportForm({
             label="Alamat Jemput"
             value={watch("pickup_address") || ""}
             onChange={(value) => setValue("pickup_address", value)}
-            placeholder="Masukkan alamat jemput"
+            placeholder="Contoh: Jl. Pandanaran No.12, Semarang Tengah, Kota Semarang"
             required
             error={errors.pickup_address?.message}
           />
@@ -329,10 +329,23 @@ export default function ReportForm({
             label="Alamat Tujuan"
             value={watch("destination_address") || ""}
             onChange={(value) => setValue("destination_address", value)}
-            placeholder="Masukkan alamat tujuan"
+            placeholder="Contoh: RSUP Dr. Kariadi, Jl. Dr. Sutomo No.16, Semarang"
             required
             error={errors.destination_address?.message}
           />
+
+          {/* Format Alamat Tips */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm">
+            <p className="font-semibold text-blue-800 mb-2">💡 Tips Format Alamat:</p>
+            <ul className="text-blue-700 space-y-1 list-disc list-inside">
+              <li><strong>Alamat Rumah:</strong> Jl. Pemuda No.45, Semarang Tengah, Kota Semarang, Jawa Tengah</li>
+              <li><strong>Rumah Sakit:</strong> RSUD Tugurejo, Kota Semarang, Jawa Tengah</li>
+              <li><strong>Landmark:</strong> Alun-Alun Simpang Lima, Semarang</li>
+            </ul>
+            <p className="text-blue-600 mt-2 text-xs">
+              📍 Tambahkan catatan landmark (dekat pom bensin, depan masjid) di kolom Catatan jika perlu.
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
