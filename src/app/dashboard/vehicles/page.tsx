@@ -192,7 +192,7 @@ export default function VehiclesPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {vehicle.vehicle_type?.name || "Tidak diketahui"}
+                          {(vehicle as unknown as { vehicle_type_name?: string }).vehicle_type_name || vehicle.vehicle_type?.name || "Tidak diketahui"}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -238,7 +238,7 @@ export default function VehiclesPage() {
                         {vehicle.plate_number}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {vehicle.vehicle_type?.name || "Tidak diketahui"}
+                        {(vehicle as unknown as { vehicle_type_name?: string }).vehicle_type_name || vehicle.vehicle_type?.name || "Tidak diketahui"}
                       </p>
                     </div>
                     <Badge variant={vehicle.status}>{vehicle.status}</Badge>

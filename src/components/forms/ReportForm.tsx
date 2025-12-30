@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/Input";
+import AddressAutocomplete from "@/components/ui/AddressAutocomplete";
 import { useVehicleTypes } from "@/hooks/useVehicles";
 import type { CreateReportRequest } from "@/lib/types";
 import { toast } from "sonner";
@@ -315,43 +316,23 @@ export default function ReportForm({
           Lokasi Jemput & Tujuan
         </h2>
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Alamat Jemput <span className="text-red-600">*</span>
-            </label>
-            <textarea
-              {...register("pickup_address")}
-              rows={2}
-              placeholder="Masukkan alamat jemput"
-              className={`w-full px-4 py-2 border ${errors.pickup_address ? "border-red-500" : "border-gray-300"
-                } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-            />
-            {errors.pickup_address && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.pickup_address.message}
-              </p>
-            )}
-          </div>
+          <AddressAutocomplete
+            label="Alamat Jemput"
+            value={watch("pickup_address") || ""}
+            onChange={(value) => setValue("pickup_address", value)}
+            placeholder="Masukkan alamat jemput"
+            required
+            error={errors.pickup_address?.message}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Alamat Tujuan <span className="text-red-600">*</span>
-            </label>
-            <textarea
-              {...register("destination_address")}
-              rows={2}
-              placeholder="Masukkan alamat tujuan"
-              className={`w-full px-4 py-2 border ${errors.destination_address
-                ? "border-red-500"
-                : "border-gray-300"
-                } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-            />
-            {errors.destination_address && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.destination_address.message}
-              </p>
-            )}
-          </div>
+          <AddressAutocomplete
+            label="Alamat Tujuan"
+            value={watch("destination_address") || ""}
+            onChange={(value) => setValue("destination_address", value)}
+            placeholder="Masukkan alamat tujuan"
+            required
+            error={errors.destination_address?.message}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
