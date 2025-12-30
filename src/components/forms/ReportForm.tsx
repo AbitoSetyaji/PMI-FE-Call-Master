@@ -109,7 +109,9 @@ export default function ReportForm({
   const selectedVehicleType = vehicleTypes.find(
     (type) => type.id === selectedTransportType
   );
-  const isMortuaryTransport = selectedVehicleType?.name === "mortuary_transport";
+  // Check if it's mortuary transport (matches 'jenazah' or 'mortuary' in name)
+  const isMortuaryTransport = selectedVehicleType?.name?.toLowerCase().includes("jenazah") ||
+    selectedVehicleType?.name?.toLowerCase().includes("mortuary");
 
   // Reset use_stretcher when switching away from mortuary transport
   const handleTransportTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -117,7 +119,9 @@ export default function ReportForm({
     const newVehicleType = vehicleTypes.find((type) => type.id === newValue);
 
     // If not mortuary transport, set use_stretcher to false
-    if (newVehicleType?.name !== "mortuary_transport") {
+    const isNewMortuary = newVehicleType?.name?.toLowerCase().includes("jenazah") ||
+      newVehicleType?.name?.toLowerCase().includes("mortuary");
+    if (!isNewMortuary) {
       setValue("use_stretcher", false);
     }
   };
@@ -228,11 +232,11 @@ export default function ReportForm({
                   htmlFor="use_stretcher"
                   className="ml-2 block text-sm text-gray-700"
                 >
-                  Membutuhkan Peti/Keranda
+                  Membutuhkan Keranda Jenazah
                 </label>
               </div>
               <div className="text-yellow-700 bg-yellow-100 border border-yellow-300 rounded px-3 py-2 text-sm">
-                ⚠️ Perhatian: Centang opsi ini jika membutuhkan layanan dengan keranda/peti jenazah. Pastikan informasi yang diberikan sudah benar.
+                ⚠️ Perhatian: Centang opsi ini jika membutuhkan layanan dengan keranda jenazah. Pastikan informasi yang diberikan sudah benar.
               </div>
             </div>
           )}
