@@ -25,6 +25,12 @@ const FlyToLocation = dynamic(
   { ssr: false }
 );
 
+const OfficeMarker = dynamic(
+  () =>
+    import("@/components/maps/OfficeMarker").then((mod) => mod.OfficeMarker),
+  { ssr: false }
+);
+
 export default function TrackingPage() {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -70,10 +76,13 @@ export default function TrackingPage() {
   const activeDrivers = driversWithLocation.filter((loc) => loc.assignment_id);
   const idleDrivers = driversWithLocation.filter((loc) => !loc.assignment_id);
 
-  // Default center (Semarang, Indonesia - PMI Jateng)
-  const defaultCenter: [number, number] = [-6.9666, 110.4196];
+  // PMI Kota Semarang Office Location
+  const PMI_OFFICE: [number, number] = [-6.982436657260785, 110.40556559821519];
+  const PMI_OFFICE_NAME = "Kantor PMI Kota Semarang";
+  const PMI_OFFICE_ADDRESS = "Jl. Mgr. Soegijapranata, Semarang";
 
   // Calculate map center based on driver locations (only those with real locations)
+  // Falls back to PMI office if no drivers
   const mapCenter: [number, number] =
     driversWithLocation.length > 0
       ? [
@@ -82,7 +91,7 @@ export default function TrackingPage() {
         driversWithLocation.reduce((sum, loc) => sum + loc.longitude, 0) /
         driversWithLocation.length,
       ]
-      : defaultCenter;
+      : PMI_OFFICE;
 
   const handleManualRefresh = () => {
     refetch();
@@ -190,25 +199,36 @@ export default function TrackingPage() {
           </div>
         ) : (
           <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] relative">
-            <MapView center={mapCenter} zoom={driversWithLocation.length > 0 ? 12 : 11}>
+            <MapView center={mapCenter} zoom={driversWithLocation.length > 0 ? 13 : 14}>
               <FlyToLocation position={flyToPosition} zoom={16} />
+
+              {/* PMI Office Marker - Always visible */}
+              <OfficeMarker
+                position={PMI_OFFICE}
+                name={PMI_OFFICE_NAME}
+                address={PMI_OFFICE_ADDRESS}
+              />
+
+              {/* Driver Markers */}
               {driversWithLocation.map((location, index) => (
                 <DriverMarker key={location.id} location={location} color={getDriverColor(index)} />
               ))}
             </MapView>
 
-            {/* Overlay when no drivers have location */}
+            {/* Small notification banner when no drivers - doesn't block the map */}
             {driversWithLocation.length === 0 && (
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center pointer-events-none z-[1000]">
-                <div className="bg-white/95 rounded-xl shadow-lg p-6 text-center max-w-sm mx-4">
-                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-700 font-medium">No driver locations available</p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {locations.length > 0
-                      ? `${locations.length} driver(s) registered but haven't shared their location yet`
-                      : "Drivers will appear here once they start sharing their location"
-                    }
-                  </p>
+              <div className="absolute top-2 left-2 right-2 z-[1000] pointer-events-none">
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 shadow-md inline-flex items-center gap-2 pointer-events-auto">
+                  <MapPin className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                  <div>
+                    <p className="text-amber-800 font-medium text-sm">Tidak ada driver aktif</p>
+                    <p className="text-amber-600 text-xs">
+                      {locations.length > 0
+                        ? `${locations.length} driver terdaftar, menunggu berbagi lokasi`
+                        : "Menunggu driver mulai berbagi lokasi"
+                      }
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
