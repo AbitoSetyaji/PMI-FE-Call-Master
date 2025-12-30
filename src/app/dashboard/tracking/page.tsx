@@ -70,8 +70,8 @@ export default function TrackingPage() {
   const activeDrivers = driversWithLocation.filter((loc) => loc.assignment_id);
   const idleDrivers = driversWithLocation.filter((loc) => !loc.assignment_id);
 
-  // Default center (Jakarta, Indonesia - PMI headquarters example)
-  const defaultCenter: [number, number] = [-6.2088, 106.8456];
+  // Default center (Semarang, Indonesia - PMI Jateng)
+  const defaultCenter: [number, number] = [-6.9666, 110.4196];
 
   // Calculate map center based on driver locations (only those with real locations)
   const mapCenter: [number, number] =
@@ -188,27 +188,30 @@ export default function TrackingPage() {
               <p className="text-gray-600">Loading map...</p>
             </div>
           </div>
-        ) : driversWithLocation.length === 0 ? (
-          <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] flex items-center justify-center bg-gray-50">
-            <div className="text-center">
-              <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-              <p className="text-gray-600">No driver locations available</p>
-              <p className="text-sm text-gray-500 mt-1">
-                {locations.length > 0
-                  ? `${locations.length} driver(s) registered but haven't shared their location yet`
-                  : "Drivers will appear here once they start sharing their location"
-                }
-              </p>
-            </div>
-          </div>
         ) : (
-          <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px]">
-            <MapView center={mapCenter} zoom={12}>
+          <div className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] relative">
+            <MapView center={mapCenter} zoom={driversWithLocation.length > 0 ? 12 : 11}>
               <FlyToLocation position={flyToPosition} zoom={16} />
               {driversWithLocation.map((location, index) => (
                 <DriverMarker key={location.id} location={location} color={getDriverColor(index)} />
               ))}
             </MapView>
+
+            {/* Overlay when no drivers have location */}
+            {driversWithLocation.length === 0 && (
+              <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center pointer-events-none z-[1000]">
+                <div className="bg-white/95 rounded-xl shadow-lg p-6 text-center max-w-sm mx-4">
+                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-700 font-medium">No driver locations available</p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {locations.length > 0
+                      ? `${locations.length} driver(s) registered but haven't shared their location yet`
+                      : "Drivers will appear here once they start sharing their location"
+                    }
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
