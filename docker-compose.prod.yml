@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=http://148.230.100.61/api
+        - NEXT_PUBLIC_API_URL=https://pmikotasmg.site/api
         - NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY:-}
     container_name: pmi-fe-app
     restart: unless-stopped
