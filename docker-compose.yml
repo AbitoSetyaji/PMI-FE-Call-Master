@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=http://148.230.100.61/api
+        - NEXT_PUBLIC_API_URL=http://srv1232368.hstgr.cloud/api
     container_name: pmi-fe-app
     ports:
       - "3001:3000"
