@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/Input";
 import AddressAutocomplete from "@/components/ui/AddressAutocomplete";
+import IndonesianDatePicker from "@/components/ui/IndonesianDatePicker";
+import IndonesianTimePicker from "@/components/ui/IndonesianTimePicker";
 import { useVehicleTypes } from "@/hooks/useVehicles";
 import type { CreateReportRequest } from "@/lib/types";
 import { toast } from "sonner";
@@ -319,10 +321,10 @@ export default function ReportForm({
         {/* Format Alamat Tips - Di bawah judul */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm mb-4">
           <p className="font-semibold text-blue-800 mb-2">💡 Contoh Format Penulisan Alamat:</p>
-          <ul className="text-blue-700 space-y-1 list-disc list-inside">
-            <li><strong>Alamat Rumah:</strong> Jl. Pemuda No.45, Semarang Tengah, Kota Semarang, Jawa Tengah</li>
-            <li><strong>Rumah Sakit:</strong> RSUD Tugurejo, Kota Semarang, Jawa Tengah</li>
-            <li><strong>Landmark:</strong> Alun-Alun Simpang Lima, Semarang</li>
+          <ul className="text-blue-700 space-y-1 text-xs">
+            <li><strong>Alamat Rumah:</strong> Jl. Pemuda No.45 RT001 RW001, Kel. Sekayu, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50132</li>
+            <li><strong>Rumah Sakit:</strong> RSD K.R.M.T. Wongsonegoro Kota Semarang, Jl. Fatmawati No.1, Mangunharjo, Kec. Tembalang, Kota Semarang, Jawa Tengah 50272</li>
+            <li><strong>Landmark:</strong> Lapangan Pancasila Simpang Lima Semarang, Jl. Nasional 14 No.10, Karangkidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50136</li>
           </ul>
           <p className="text-blue-600 mt-2 text-xs">
             📍 Tambahkan catatan landmark (dekat pom bensin, depan masjid) di kolom Catatan jika perlu.
@@ -334,7 +336,7 @@ export default function ReportForm({
             label="Alamat Jemput"
             value={watch("pickup_address") || ""}
             onChange={(value) => setValue("pickup_address", value)}
-            placeholder="Contoh: Jl. Pandanaran No.12, Semarang Tengah, Kota Semarang"
+            placeholder="Contoh: Jl. Pandanaran No.12, Kel. Pekunden, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50244"
             required
             error={errors.pickup_address?.message}
           />
@@ -343,7 +345,7 @@ export default function ReportForm({
             label="Alamat Tujuan"
             value={watch("destination_address") || ""}
             onChange={(value) => setValue("destination_address", value)}
-            placeholder="Contoh: RSUP Dr. Kariadi, Jl. Dr. Sutomo No.16, Semarang"
+            placeholder="Contoh: RSUP Dr Kariadi Semarang, Jl. DR. Sutomo No.16, Kel. Randusari, Kec. Semarang Sel., Kota Semarang, Jawa Tengah 50244"
             required
             error={errors.destination_address?.message}
           />
@@ -353,20 +355,22 @@ export default function ReportForm({
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tanggal Jadwal <span className="text-red-600">*</span>
               </label>
-              <Input
-                {...register("schedule_date")}
-                type="date"
+              <IndonesianDatePicker
+                value={watch("schedule_date") || ""}
+                onChange={(value) => setValue("schedule_date", value)}
                 error={errors.schedule_date?.message}
+                placeholder="Pilih tanggal"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Waktu Jadwal <span className="text-red-600">*</span>
               </label>
-              <Input
-                {...register("schedule_time")}
-                type="time"
+              <IndonesianTimePicker
+                value={watch("schedule_time") || ""}
+                onChange={(value) => setValue("schedule_time", value)}
                 error={errors.schedule_time?.message}
+                placeholder="Pilih waktu"
               />
             </div>
           </div>

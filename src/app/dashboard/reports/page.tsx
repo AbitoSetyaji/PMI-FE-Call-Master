@@ -181,6 +181,9 @@ export default function ReportsPage() {
                       Jadwal
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Transport
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -225,6 +228,16 @@ export default function ReportsPage() {
                         <div className="text-sm text-gray-500">
                           {report.schedule_time}
                         </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {report.transport_type || '-'}
+                        </div>
+                        {report.use_stretcher && (
+                          <div className="text-sm text-green-600 font-medium">
+                            ✓ Keranda
+                          </div>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge variant={report.status}>{report.status}</Badge>
@@ -284,6 +297,13 @@ export default function ReportsPage() {
                       <div className="truncate">
                         🏥 Ke: {report.destination_address}
                       </div>
+                    </div>
+
+                    <div className="text-sm text-gray-600">
+                      🚗 {report.transport_type || '-'}
+                      {report.use_stretcher && (
+                        <span className="ml-2 text-green-600 font-medium">✓ Keranda</span>
+                      )}
                     </div>
 
                     <div className="text-sm text-gray-600">

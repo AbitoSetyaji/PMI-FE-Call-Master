@@ -125,8 +125,8 @@ export default function ReportDetailPage({
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Report Details</h1>
-            <p className="text-gray-600 mt-1">Report ID: {report.id}</p>
+            <h1 className="text-3xl font-bold text-gray-900">Detail Laporan</h1>
+            <p className="text-gray-600 mt-1">ID Laporan: {report.id}</p>
           </div>
         </div>
         {(isAdmin || isReporter) && (
@@ -143,7 +143,7 @@ export default function ReportDetailPage({
       {/* Status */}
       <div className="flex gap-3">
         <Badge variant={report.status}>{report.status}</Badge>
-        {report.use_stretcher && <Badge variant="info">Coffin Required</Badge>}
+        {report.use_stretcher && <Badge variant="info">Butuh Keranda</Badge>}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -153,13 +153,13 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <User className="w-5 h-5 text-red-600" />
-              Requester Information
+              Informasi Pemohon
             </h2>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <User className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
-                  <p className="text-sm text-gray-600">Name</p>
+                  <p className="text-sm text-gray-600">Nama</p>
                   <p className="font-medium text-gray-900">
                     {report.requester_name}
                   </p>
@@ -168,7 +168,7 @@ export default function ReportDetailPage({
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
-                  <p className="text-sm text-gray-600">Phone Number</p>
+                  <p className="text-sm text-gray-600">Nomor Telepon</p>
                   <a
                     href={`tel:${report.requester_phone}`}
                     className="font-medium text-red-600 hover:text-red-700"
@@ -184,11 +184,11 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-red-600" />
-              Transport Information
+              Informasi Transportasi
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Transport Type</p>
+                <p className="text-sm text-gray-600">Jenis Transportasi</p>
                 <p className="font-medium text-gray-900">
                   {report.transport_type_name
                     ? report.transport_type_name
@@ -198,9 +198,9 @@ export default function ReportDetailPage({
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Coffin Required</p>
+                <p className="text-sm text-gray-600">Butuh Keranda</p>
                 <p className="font-medium text-gray-900">
-                  {report.use_stretcher ? "✓ Yes" : "✗ No"}
+                  {report.use_stretcher ? "✓ Ya" : "✗ Tidak"}
                 </p>
               </div>
             </div>
@@ -210,30 +210,30 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <User className="w-5 h-5 text-red-600" />
-              Patient Information
+              Informasi Pasien
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Patient Name</p>
+                <p className="text-sm text-gray-600">Nama Pasien</p>
                 <p className="font-medium text-gray-900">
                   {report.patient_name}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Gender</p>
+                <p className="text-sm text-gray-600">Jenis Kelamin</p>
                 <p className="font-medium text-gray-900">
-                  {report.patient_gender === "male" ? "♂ Male" : "♀ Female"}
+                  {report.patient_gender === "male" ? "♂ Laki-laki" : "♀ Perempuan"}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Age</p>
+                <p className="text-sm text-gray-600">Usia</p>
                 <p className="font-medium text-gray-900">
-                  {report.patient_age} years
+                  {report.patient_age} tahun
                 </p>
               </div>
               {report.patient_history && (
                 <div className="md:col-span-2">
-                  <p className="text-sm text-gray-600 mb-1">Medical History</p>
+                  <p className="text-sm text-gray-600 mb-1">Riwayat Medis</p>
                   <p className="text-gray-700 whitespace-pre-wrap">
                     {report.patient_history}
                   </p>
@@ -246,18 +246,18 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-red-600" />
-              Pickup & Destination
+              Lokasi Jemput & Tujuan
             </h2>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-600 mb-1">📍 Pickup Address</p>
+                <p className="text-sm text-gray-600 mb-1">📍 Alamat Jemput</p>
                 <p className="font-medium text-gray-900">
                   {report.pickup_address}
                 </p>
               </div>
               <div className="border-t pt-4">
                 <p className="text-sm text-gray-600 mb-1">
-                  🏥 Destination Address
+                  🏥 Alamat Tujuan
                 </p>
                 <p className="font-medium text-gray-900">
                   {report.destination_address}
@@ -270,17 +270,17 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Calendar className="w-5 h-5 text-red-600" />
-              Schedule
+              Jadwal
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Date</p>
+                <p className="text-sm text-gray-600">Tanggal</p>
                 <p className="font-medium text-gray-900">
                   {report.schedule_date}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Time</p>
+                <p className="text-sm text-gray-600">Waktu</p>
                 <p className="font-medium text-gray-900">
                   {report.schedule_time}
                 </p>
@@ -292,13 +292,13 @@ export default function ReportDetailPage({
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Phone className="w-5 h-5 text-red-600" />
-              Contact Person
+              Kontak Person
             </h2>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <User className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
-                  <p className="text-sm text-gray-600">Name</p>
+                  <p className="text-sm text-gray-600">Nama</p>
                   <p className="font-medium text-gray-900">
                     {report.contact_person_name}
                   </p>
@@ -307,7 +307,7 @@ export default function ReportDetailPage({
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
-                  <p className="text-sm text-gray-600">Phone Number</p>
+                  <p className="text-sm text-gray-600">Nomor Telepon</p>
                   <a
                     href={`tel:${report.contact_person_phone}`}
                     className="font-medium text-red-600 hover:text-red-700"
