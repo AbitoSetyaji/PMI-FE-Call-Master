@@ -4,6 +4,7 @@ import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import type { DriverLocation } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
+import { generateReportDisplayId } from "@/lib/utils";
 
 interface DriverMarkerProps {
   location: DriverLocation;
@@ -67,7 +68,14 @@ export function DriverMarker({ location, color = "#ef4444" }: DriverMarkerProps)
             {location.assignment_id && (
               <div className="mt-2 pt-2 border-t border-gray-200">
                 <span className="text-xs text-gray-500">
-                  📋 Assignment: #{location.assignment_id.slice(0, 8)}...
+                  📋 ID Laporan: {location.report
+                    ? generateReportDisplayId(
+                      location.report.transport_type_name,
+                      location.report.schedule_date,
+                      location.report.schedule_time
+                    )
+                    : `#${location.assignment_id.slice(0, 8)}...`
+                  }
                 </span>
               </div>
             )}
@@ -79,7 +87,7 @@ export function DriverMarker({ location, color = "#ef4444" }: DriverMarkerProps)
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800 text-xs"
               >
-                🗺️ Open in Google Maps
+                🗺️ Buka di Google Maps
               </a>
             </div>
 

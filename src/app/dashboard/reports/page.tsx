@@ -231,7 +231,7 @@ export default function ReportsPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {report.transport_type || '-'}
+                          {report.transport_type_name || '-'}
                         </div>
                         {report.use_stretcher && (
                           <div className="text-sm text-green-600 font-medium">
@@ -300,7 +300,7 @@ export default function ReportsPage() {
                     </div>
 
                     <div className="text-sm text-gray-600">
-                      🚗 {report.transport_type || '-'}
+                      🚗 {report.transport_type_name || '-'}
                       {report.use_stretcher && (
                         <span className="ml-2 text-green-600 font-medium">✓ Keranda</span>
                       )}

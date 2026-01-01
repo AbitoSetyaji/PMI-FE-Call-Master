@@ -230,6 +230,9 @@ export interface DriverLocationReport {
   requester_name?: string;
   requester_phone?: string;
   transport_type?: string;
+  transport_type_name?: string;
+  schedule_date?: string;
+  schedule_time?: string;
   use_stretcher?: boolean;
   pickup_address?: string;
   destination_address?: string;

@@ -156,7 +156,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Reports */}
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">
             Laporan Terbaru
@@ -169,43 +169,170 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        <div className="divide-y divide-gray-200">
-          {loadingReports ? (
-            <div className="p-6 text-center text-gray-500">
-              Memuat laporan...
+        {loadingReports ? (
+          <div className="p-6 text-center text-gray-500">
+            Memuat laporan...
+          </div>
+        ) : recentReports.length === 0 ? (
+          <div className="p-6 text-center text-gray-500">Belum ada laporan</div>
+        ) : (
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Pemohon
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Pasien
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Rute
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Jadwal
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Transport
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {recentReports.map((report: Report) => (
+                    <tr key={report.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {report.requester_name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {report.requester_phone}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {report.patient_name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {report.patient_gender === "male" ? "♂" : "♀"}{" "}
+                          {report.patient_age} tahun
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 max-w-xs">
+                          <div className="truncate">
+                            📍 {report.pickup_address}
+                          </div>
+                          <div className="truncate text-gray-500">
+                            🏥 {report.destination_address}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {report.schedule_date}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {report.schedule_time}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {report.transport_type_name || '-'}
+                        </div>
+                        {report.use_stretcher && (
+                          <div className="text-sm text-green-600 font-medium">
+                            ✓ Keranda
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Badge variant={report.status}>{report.status}</Badge>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                        <Link
+                          href={`/dashboard/reports/${report.id}`}
+                          className="text-red-600 hover:text-red-900 font-medium"
+                        >
+                          Lihat Detail
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          ) : recentReports.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">Belum ada laporan</div>
-          ) : (
-            recentReports.map((report: Report) => (
-              <Link
-                key={report.id}
-                href={`/dashboard/reports/${report.id}`}
-                className="block p-6 hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+
+            {/* Mobile Cards */}
+            <div className="md:hidden divide-y divide-gray-200">
+              {recentReports.map((report: Report) => (
+                <Link
+                  key={report.id}
+                  href={`/dashboard/reports/${report.id}`}
+                  className="block p-4 hover:bg-gray-50"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
                       <h3 className="font-semibold text-gray-900">
                         {report.requester_name}
                       </h3>
-                      <Badge variant={report.status}>{report.status}</Badge>
+                      <p className="text-sm text-gray-600">
+                        {report.requester_phone}
+                      </p>
                     </div>
-                    <p className="text-sm text-gray-600 mb-1">
-                      📞 {report.requester_phone}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      📍 {report.pickup_address}
-                    </p>
+                    <Badge variant={report.status}>{report.status}</Badge>
                   </div>
-                  <div className="text-right text-sm text-gray-500">
-                    {formatDateTime(report.created_at)}
+
+                  <div className="space-y-2 mb-3">
+                    <div className="text-sm">
+                      <span className="font-medium text-gray-700">
+                        Pasien:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {report.patient_name}
+                      </span>
+                      <span className="text-gray-500 ml-2">
+                        ({report.patient_gender === "male" ? "♂" : "♀"}{" "}
+                        {report.patient_age} thn)
+                      </span>
+                    </div>
+
+                    <div className="text-sm text-gray-600">
+                      <div className="truncate">
+                        📍 Dari: {report.pickup_address}
+                      </div>
+                      <div className="truncate">
+                        🏥 Ke: {report.destination_address}
+                      </div>
+                    </div>
+
+                    <div className="text-sm text-gray-600">
+                      🚗 {report.transport_type_name || '-'}
+                      {report.use_stretcher && (
+                        <span className="ml-2 text-green-600 font-medium">✓ Keranda</span>
+                      )}
+                    </div>
+
+                    <div className="text-sm text-gray-600">
+                      📅 {report.schedule_date} pukul {report.schedule_time}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
+
+                  <p className="text-xs text-gray-500">
+                    Dibuat: {formatDateTime(report.created_at)}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Quick Actions */}
