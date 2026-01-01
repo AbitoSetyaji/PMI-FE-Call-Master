@@ -13,7 +13,7 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, generateReportDisplayId } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -129,9 +129,16 @@ export default function AssignmentDetailPage({
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Assignment Details
+              Detail Penugasan
             </h1>
-            <p className="text-gray-600 mt-1">Assignment ID: {assignment.id}</p>
+            <p className="text-gray-600 mt-1">ID Laporan: {report
+              ? generateReportDisplayId(
+                report.transport_type_name,
+                report.schedule_date,
+                report.schedule_time
+              )
+              : assignment.report_id.substring(0, 8) + "..."
+            }</p>
           </div>
         </div>
       </div>

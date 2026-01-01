@@ -49,12 +49,12 @@ export default function VehicleTypesPage() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["vehicle-types"] });
             queryClient.invalidateQueries({ queryKey: ["vehicles"] });
-            toast.success("Vehicle type deleted successfully");
+            toast.success("Jenis kendaraan berhasil dihapus");
         },
         onError: (error: Error) => {
             const axiosError = error as { response?: { data?: { detail?: string } } };
             toast.error(
-                axiosError?.response?.data?.detail || "Failed to delete vehicle type"
+                axiosError?.response?.data?.detail || "Gagal menghapus jenis kendaraan"
             );
         },
     });
@@ -94,8 +94,8 @@ export default function VehicleTypesPage() {
                         <ArrowLeft className="w-5 h-5 text-gray-600" />
                     </button>
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Vehicle Types</h1>
-                        <p className="text-gray-600 mt-1">Manage vehicle categories</p>
+                        <h1 className="text-3xl font-bold text-gray-900">Jenis Kendaraan</h1>
+                        <p className="text-gray-600 mt-1">Kelola kategori kendaraan</p>
                     </div>
                 </div>
                 {isAdmin && (
@@ -104,7 +104,7 @@ export default function VehicleTypesPage() {
                         className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
                         <Plus className="w-5 h-5" />
-                        Add Type
+                        Tambah Jenis
                     </button>
                 )}
             </div>
@@ -115,12 +115,12 @@ export default function VehicleTypesPage() {
                     <SkeletonTable rows={5} />
                 ) : error ? (
                     <div className="p-8 text-center text-red-600">
-                        Error loading vehicle types
+                        Gagal memuat jenis kendaraan
                     </div>
                 ) : types.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">
-                        No vehicle types found.{" "}
-                        {isAdmin && "Click 'Add Type' to create one."}
+                        Jenis kendaraan tidak ditemukan.{" "}
+                        {isAdmin && "Klik 'Tambah Jenis' untuk membuat."}
                     </div>
                 ) : (
                     <>
@@ -130,17 +130,17 @@ export default function VehicleTypesPage() {
                                 <thead className="bg-gray-50 border-b border-gray-200">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Name
+                                            Nama
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Description
+                                            Deskripsi
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Created
+                                            Dibuat
                                         </th>
                                         {isAdmin && (
                                             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Actions
+                                                Aksi
                                             </th>
                                         )}
                                     </tr>
@@ -192,12 +192,12 @@ export default function VehicleTypesPage() {
                                             {type.name}
                                         </h3>
                                         <p className="text-sm text-gray-600">
-                                            {type.description || "No description"}
+                                            {type.description || "Tidak ada deskripsi"}
                                         </p>
                                     </div>
 
                                     <p className="text-xs text-gray-500 mb-3">
-                                        Created: {type.created_at ? formatDateTime(type.created_at) : "-"}
+                                        Dibuat: {type.created_at ? formatDateTime(type.created_at) : "-"}
                                     </p>
 
                                     {isAdmin && (
@@ -207,14 +207,14 @@ export default function VehicleTypesPage() {
                                                 className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                                             >
                                                 <Edit className="w-4 h-4 inline mr-1" />
-                                                Edit
+                                                Ubah
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(type.id, type.name)}
                                                 className="flex-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
                                             >
                                                 <Trash2 className="w-4 h-4 inline mr-1" />
-                                                Delete
+                                                Hapus
                                             </button>
                                         </div>
                                     )}
@@ -245,10 +245,10 @@ export default function VehicleTypesPage() {
                     setConfirmDialog({ isOpen: false, typeId: "", typeName: "" })
                 }
                 onConfirm={confirmDelete}
-                title="Delete Vehicle Type"
-                message={`Are you sure you want to delete vehicle type "${confirmDialog.typeName}"? This action cannot be undone.`}
-                confirmText="Delete"
-                cancelText="Cancel"
+                title="Hapus Jenis Kendaraan"
+                message={`Apakah Anda yakin ingin menghapus jenis kendaraan "${confirmDialog.typeName}"? Tindakan ini tidak dapat dibatalkan.`}
+                confirmText="Hapus"
+                cancelText="Batal"
                 type="danger"
                 isLoading={deleteMutation.isPending}
             />
@@ -282,15 +282,15 @@ function VehicleTypeModal({
             queryClient.invalidateQueries({ queryKey: ["vehicles"] });
             toast.success(
                 vehicleType
-                    ? "Vehicle type updated successfully"
-                    : "Vehicle type created successfully"
+                    ? "Jenis kendaraan berhasil diperbarui"
+                    : "Jenis kendaraan berhasil dibuat"
             );
             onClose();
         },
         onError: (error: Error) => {
             const axiosError = error as { response?: { data?: { detail?: string } } };
             toast.error(
-                axiosError?.response?.data?.detail || "Failed to save vehicle type"
+                axiosError?.response?.data?.detail || "Gagal menyimpan jenis kendaraan"
             );
         },
     });
@@ -306,13 +306,13 @@ function VehicleTypeModal({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-md w-full p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    {vehicleType ? "Edit Vehicle Type" : "Add New Vehicle Type"}
+                    {vehicleType ? "Ubah Jenis Kendaraan" : "Tambah Jenis Kendaraan Baru"}
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Name <span className="text-red-600">*</span>
+                            Nama <span className="text-red-600">*</span>
                         </label>
                         <input
                             type="text"
@@ -321,14 +321,14 @@ function VehicleTypeModal({
                                 setFormData({ ...formData, name: e.target.value })
                             }
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                            placeholder="e.g., Ambulance, Fire Truck"
+                            placeholder="contoh: Ambulan, Mobil Jenazah"
                             required
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Description (Optional)
+                            Deskripsi (Opsional)
                         </label>
                         <textarea
                             value={formData.description}
@@ -337,7 +337,7 @@ function VehicleTypeModal({
                             }
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                             rows={3}
-                            placeholder="Brief description of this vehicle type"
+                            placeholder="Deskripsi singkat jenis kendaraan ini"
                         />
                     </div>
 
@@ -347,7 +347,7 @@ function VehicleTypeModal({
                             onClick={onClose}
                             className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                         >
-                            Cancel
+                            Batal
                         </button>
                         <button
                             type="submit"
@@ -355,10 +355,10 @@ function VehicleTypeModal({
                             className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
                         >
                             {mutation.isPending
-                                ? "Saving..."
+                                ? "Menyimpan..."
                                 : vehicleType
-                                    ? "Update"
-                                    : "Create"}
+                                    ? "Perbarui"
+                                    : "Buat"}
                         </button>
                     </div>
                 </form>

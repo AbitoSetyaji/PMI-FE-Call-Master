@@ -169,9 +169,9 @@ export function calculateDistance(
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -179,4 +179,52 @@ export function calculateDistance(
 // Format coordinates
 export function formatCoordinates(lat: number, lon: number): string {
   return `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+}
+
+// Generate formatted Report ID
+// Format: SMG-[TYPE]-[DDMM]-[HHMMYY]
+// Example: SMG-MJ-3012-194626 (Mobil Jenazah on 30/12/2026 at 19:46)
+// Example: SMG-AAJ-0101-130026 (Ambulan on 01/01/2026 at 13:00)
+export function generateReportDisplayId(
+  transportTypeName: string | null | undefined,
+  scheduleDate: string | null | undefined,
+  scheduleTime: string | null | undefined
+): string {
+  // Determine transport type code
+  let typeCode = "UNK"; // Unknown
+  if (transportTypeName) {
+    const typeLower = transportTypeName.toLowerCase();
+    if (typeLower.includes("jenazah") || typeLower.includes("coffin") || typeLower.includes("hearse")) {
+      typeCode = "MJ"; // Mobil Jenazah
+    } else if (typeLower.includes("ambulan") || typeLower.includes("ambulance")) {
+      typeCode = "AAJ"; // Ambulan
+    }
+  }
+
+  // Parse date (format: YYYY-MM-DD)
+  let dateCode = "0000";
+  let yearCode = "00";
+  if (scheduleDate) {
+    const dateParts = scheduleDate.split("-");
+    if (dateParts.length === 3) {
+      const year = dateParts[0];
+      const day = dateParts[2].padStart(2, "0");
+      const month = dateParts[1].padStart(2, "0");
+      dateCode = `${day}${month}`;
+      yearCode = year.slice(-2); // Last 2 digits of year
+    }
+  }
+
+  // Parse time (format: HH:MM or HH:MM:SS)
+  let timeCode = "0000";
+  if (scheduleTime) {
+    const timeParts = scheduleTime.split(":");
+    if (timeParts.length >= 2) {
+      const hour = timeParts[0].padStart(2, "0");
+      const minute = timeParts[1].padStart(2, "0");
+      timeCode = `${hour}${minute}`;
+    }
+  }
+
+  return `SMG-${typeCode}-${dateCode}-${timeCode}${yearCode}`;
 }

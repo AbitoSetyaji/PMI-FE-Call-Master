@@ -16,13 +16,13 @@ export default function CreateVehiclePage() {
     mutationFn: (data: CreateVehicleRequest) => vehicles.createVehicle(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vehicles"] });
-      toast.success("Vehicle created successfully");
+      toast.success("Kendaraan berhasil dibuat");
       router.push("/dashboard/vehicles");
     },
     onError: (error: Error) => {
       const axiosError = error as { response?: { data?: { detail?: string } } };
       toast.error(
-        axiosError?.response?.data?.detail || "Failed to create vehicle"
+        axiosError?.response?.data?.detail || "Gagal membuat kendaraan"
       );
     },
   });
@@ -42,8 +42,8 @@ export default function CreateVehiclePage() {
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Create Vehicle</h1>
-          <p className="text-gray-600 mt-1">Add a new vehicle to the system</p>
+          <h1 className="text-3xl font-bold text-gray-900">Buat Kendaraan</h1>
+          <p className="text-gray-600 mt-1">Tambahkan kendaraan baru ke sistem</p>
         </div>
       </div>
 

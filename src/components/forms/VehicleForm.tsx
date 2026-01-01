@@ -77,12 +77,12 @@ export default function VehicleForm({
             htmlFor="name"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Vehicle Name <span className="text-red-500">*</span>
+            Nama Kendaraan <span className="text-red-500">*</span>
           </label>
           <Input
             id="name"
             type="text"
-            placeholder="e.g., Ambulance 01"
+            placeholder="contoh: Ambulan 01"
             {...register("name")}
             error={errors.name?.message}
             disabled={isSubmitting}
@@ -95,18 +95,18 @@ export default function VehicleForm({
             htmlFor="plate_number"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Plate Number <span className="text-red-500">*</span>
+            Nomor Plat <span className="text-red-500">*</span>
           </label>
           <Input
             id="plate_number"
             type="text"
-            placeholder="e.g., B 1234 XYZ"
+            placeholder="contoh: B 1234 XYZ"
             {...register("plate_number")}
             error={errors.plate_number?.message}
             disabled={isSubmitting}
           />
           <p className="text-xs text-gray-500 mt-1">
-            Format: 1-2 letters, space, 1-4 digits, space, 1-3 letters
+            Format: 1-2 huruf, spasi, 1-4 digit, spasi, 1-3 huruf
           </p>
         </div>
 
@@ -116,12 +116,12 @@ export default function VehicleForm({
             htmlFor="type"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Vehicle Type <span className="text-red-500">*</span>
+            Jenis Kendaraan <span className="text-red-500">*</span>
           </label>
           {isLoadingTypes ? (
             <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
-              <span className="text-sm text-gray-600">Loading types...</span>
+              <span className="text-sm text-gray-600">Memuat jenis...</span>
             </div>
           ) : (
             <select
@@ -131,7 +131,7 @@ export default function VehicleForm({
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.type ? "border-red-500" : ""
                 }`}
             >
-              <option value="">Select vehicle type</option>
+              <option value="">Pilih jenis kendaraan</option>
               {types.map((type) => (
                 <option key={type.id} value={type.id}>
                   {type.name}
@@ -159,9 +159,9 @@ export default function VehicleForm({
             className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.status ? "border-red-500" : ""
               }`}
           >
-            <option value="available">Available</option>
-            <option value="on_duty">On Duty</option>
-            <option value="maintenance">Maintenance</option>
+            <option value="available">Tersedia</option>
+            <option value="on_duty">Bertugas</option>
+            <option value="maintenance">Perawatan</option>
           </select>
           {errors.status?.message && (
             <p className="mt-1 text-sm text-red-600">{errors.status.message}</p>
@@ -183,10 +183,10 @@ export default function VehicleForm({
           {isSubmitting ? (
             <span className="flex items-center gap-2">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-              {initialData ? "Updating..." : "Creating..."}
+              {initialData ? "Memperbarui..." : "Membuat..."}
             </span>
           ) : (
-            <span>{initialData ? "Update Vehicle" : "Create Vehicle"}</span>
+            <span>{initialData ? "Perbarui Kendaraan" : "Buat Kendaraan"}</span>
           )}
         </Button>
         <Button
@@ -196,7 +196,7 @@ export default function VehicleForm({
           disabled={isSubmitting}
           className="flex-1 sm:flex-none"
         >
-          Cancel
+          Batal
         </Button>
       </div>
     </form>

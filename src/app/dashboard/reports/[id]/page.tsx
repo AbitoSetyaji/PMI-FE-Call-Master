@@ -13,7 +13,7 @@ import {
   FileText,
   Edit,
 } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, generateReportDisplayId } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -126,7 +126,7 @@ export default function ReportDetailPage({
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Detail Laporan</h1>
-            <p className="text-gray-600 mt-1">ID Laporan: {report.id}</p>
+            <p className="text-gray-600 mt-1">ID Laporan: {generateReportDisplayId(report.transport_type_name, report.schedule_date, report.schedule_time)}</p>
           </div>
         </div>
         {(isAdmin || isReporter) && (
@@ -327,12 +327,12 @@ export default function ReportDetailPage({
               <div className="bg-white rounded-lg shadow p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <FileText className="w-5 h-5 text-red-600" />
-                  Additional Information
+                  Informasi Tambahan
                 </h2>
                 <div className="space-y-4">
                   {report.note && (
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">Note</p>
+                      <p className="text-sm text-gray-600 mb-1">Catatan</p>
                       <p className="text-gray-700 whitespace-pre-wrap">
                         {report.note}
                       </p>
@@ -342,7 +342,7 @@ export default function ReportDetailPage({
                     report.attachment_house_photo ||
                     report.attachment_sharelok) && (
                       <div>
-                        <p className="text-sm text-gray-600 mb-2">Attachments</p>
+                        <p className="text-sm text-gray-600 mb-2">Lampiran</p>
                         <div className="space-y-2">
                           {report.attachment_ktp && (
                             <a
@@ -351,7 +351,7 @@ export default function ReportDetailPage({
                               rel="noopener noreferrer"
                               className="block px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm"
                             >
-                              📄 KTP Attachment
+                              📄 Lampiran KTP
                             </a>
                           )}
                           {report.attachment_house_photo && (
@@ -361,7 +361,7 @@ export default function ReportDetailPage({
                               rel="noopener noreferrer"
                               className="block px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm"
                             >
-                              🏠 House Photo
+                              🏠 Foto Rumah
                             </a>
                           )}
                           {report.attachment_sharelok && (
@@ -371,10 +371,9 @@ export default function ReportDetailPage({
                               rel="noopener noreferrer"
                               className="block px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm"
                             >
-                              📍 Share Location
+                              📍 Bagikan Lokasi
                             </a>
-                          )}
-                        </div>
+                          )}    </div>
                       </div>
                     )}
                 </div>
@@ -385,30 +384,30 @@ export default function ReportDetailPage({
           {assignment && (
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Assignment Details
+                Detail Penugasan
               </h2>
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm text-gray-600">Vehicle</p>
+                  <p className="text-sm text-gray-600">Kendaraan</p>
                   <p className="font-medium text-gray-900">
                     {(assignment as any)?.vehicle_plate || (assignment as any)?.vehicle?.plate_number || "N/A"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Driver</p>
+                  <p className="text-sm text-gray-600">Pengemudi</p>
                   <p className="font-medium text-gray-900">
                     {(assignment as any)?.driver_name || (assignment as any)?.driver?.name || "N/A"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Assignment Status</p>
+                  <p className="text-sm text-gray-600">Status Penugasan</p>
                   <Badge variant={assignment.status}>{assignment.status}</Badge>
                 </div>
                 <Link
                   href={`/dashboard/assignments/${assignment.id}`}
                   className="inline-block mt-2 text-red-600 hover:text-red-700 font-medium text-sm"
                 >
-                  View Full Assignment →
+                  Lihat Detail Penugasan →
                 </Link>
               </div>
             </div>
@@ -425,14 +424,14 @@ export default function ReportDetailPage({
             </h2>
             <div className="space-y-3 text-sm">
               <div>
-                <p className="text-gray-600">Created</p>
+                <p className="text-gray-600">Dibuat</p>
                 <p className="font-medium text-gray-900">
                   {formatDateTime(report.created_at)}
                 </p>
               </div>
               {report.updated_at && (
                 <div>
-                  <p className="text-gray-600">Last Updated</p>
+                  <p className="text-gray-600">Terakhir Diperbarui</p>
                   <p className="font-medium text-gray-900">
                     {formatDateTime(report.updated_at)}
                   </p>
@@ -445,7 +444,7 @@ export default function ReportDetailPage({
           {(isAdmin || isReporter) && (
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Update Status
+                Perbarui Status
               </h2>
               <div className="space-y-2">
                 {(
@@ -477,7 +476,7 @@ export default function ReportDetailPage({
           {/* Quick Actions */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Quick Actions
+              Aksi Cepat
             </h2>
             <div className="space-y-2">
               {!assignment && report.status === "pending" && (
@@ -485,20 +484,20 @@ export default function ReportDetailPage({
                   href={`/dashboard/assignments/create?report_id=${id}`}
                   className="block w-full px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-center text-sm font-medium"
                 >
-                  Create Assignment
+                  Buat Penugasan
                 </Link>
               )}
               <a
                 href={`tel:${report.requester_phone}`}
                 className="block w-full px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors text-center text-sm font-medium"
               >
-                Call Requester
+                Hubungi Pemohon
               </a>
               <a
                 href={`tel:${report.contact_person_phone}`}
                 className="block w-full px-4 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors text-center text-sm font-medium"
               >
-                Call Contact Person
+                Hubungi Kontak Person
               </a>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { assignmentsApi } from "@/lib/api";
 import { Badge } from "@/components/ui/Badge";
 import { Filter, Plus } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, generateReportDisplayId } from "@/lib/utils";
 import Link from "next/link";
 import type { AssignmentStatus } from "@/lib/types";
 
@@ -162,7 +162,14 @@ export default function AssignmentsPage() {
                       <td className="px-6 py-4">
                         <div className="text-sm">
                           <div className="font-medium text-gray-900 font-mono text-xs">
-                            {assignment.report_id.substring(0, 8)}...
+                            {assignment.report
+                              ? generateReportDisplayId(
+                                assignment.report.transport_type_name,
+                                assignment.report.schedule_date,
+                                assignment.report.schedule_time
+                              )
+                              : assignment.report_id.substring(0, 8) + "..."
+                            }
                           </div>
                         </div>
                       </td>
@@ -212,7 +219,14 @@ export default function AssignmentsPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 mb-1 font-mono text-xs">
-                        Laporan: {assignment.report_id.substring(0, 8)}...
+                        Laporan: {assignment.report
+                          ? generateReportDisplayId(
+                            assignment.report.transport_type_name,
+                            assignment.report.schedule_date,
+                            assignment.report.schedule_time
+                          )
+                          : assignment.report_id.substring(0, 8) + "..."
+                        }
                       </h3>
                     </div>
                     <Badge variant={assignment.status}>
